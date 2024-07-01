@@ -1,0 +1,172 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\JobService;
+use App\Models\JobSparepart;
+use App\Models\JobProgram;
+use App\Models\JobJoki;
+use App\Models\JobTopup;
+use App\Models\JobDrink;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+class LaporanController extends Controller
+{
+    public function index(request $request)
+    {
+        $jenisLaporan = $request->jenis_laporan;
+        $dateInput = $request->date_input;
+        $monthYear = $request->month_input;
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $resultForReport = '';
+
+        if ($dateInput) {
+            $dataJobService = JobService::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
+            $dataJobSparepart = JobSparepart::whereDate('tanggal', $dateInput)->get();
+            $dataJobProgram = JobProgram::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
+            $dataJobJoki = JobJoki::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
+            $dataJobTopup = JobTopup::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
+            $dataJobDrink = JobDrink::whereDate('tanggal', $dateInput)->get();
+
+            $titlePeriode = Carbon::parse($dateInput)->translatedFormat('l, d F Y');
+            $resultForReport = $dateInput;
+
+        } elseif ($monthYear) {
+            list($yearInput, $monthInput) = explode('-', $monthYear);
+
+            $dataJobService = JobService::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
+            $dataJobSparepart = JobSparepart::whereMonth('tanggal', $monthInput)->get();
+            $dataJobProgram = JobProgram::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
+            $dataJobJoki = JobJoki::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
+            $dataJobTopup = JobTopup::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
+            $dataJobDrink = JobDrink::whereMonth('tanggal', $monthInput)->get();
+
+            $titlePeriode = Carbon::createFromDate($yearInput, $monthInput, 1)->translatedFormat('F Y');
+            $resultForReport = $monthYear;
+
+        } elseif ($startDate && $endDate) {
+            $titlePeriode = Carbon::parse($startDate)->translatedFormat('d F Y') . ' - ' . Carbon::parse($endDate)->translatedFormat('d F Y');
+            $resultForReport = $startDate . ' - ' . $endDate;
+
+            $dataJobService = JobService::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataJobSparepart = JobSparepart::whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataJobProgram = JobProgram::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataJobJoki = JobJoki::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataJobTopup = JobTopup::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataJobDrink = JobDrink::whereBetween('tanggal', [$startDate, $endDate])->get();
+        } else {
+            $dataJobService = JobService::where('status', 'selesai')->get();
+            $dataJobSparepart = JobSparepart::all();
+            $dataJobProgram = JobProgram::where('status', 'selesai')->get();
+            $dataJobJoki = JobJoki::where('status', 'selesai')->get();
+            $dataJobTopup = JobTopup::where('status', 'selesai')->get();
+            $dataJobDrink = JobDrink::all();
+
+            $titlePeriode = 'Semua waktu';
+        }
+
+        // Menghitung total harga untuk JobService
+        $totalKeuntunganJobService = 0; 
+        foreach ($dataJobService as $key) {
+            $totalKeuntunganJobService += $key->harga;
+        }
+
+        // Menghitung total harga untuk JobSparepart
+        $totalHargaJobSparepart = 0; 
+        $totalModalJobSparepart = 0;
+        foreach ($dataJobSparepart as $key) {
+            $totalHargaJobSparepart += $key->harga_jual;
+            $totalModalJobSparepart += $key->harga_awal;
+        }
+        $totalKeuntunganJobSparepart = $totalHargaJobSparepart - $totalModalJobSparepart;
+
+        // Menghitung total harga untuk JobProgram
+        $totalKeuntunganJobProgram = 0; 
+        foreach ($dataJobProgram as $key) {
+            $totalKeuntunganJobProgram += $key->harga;
+        }
+
+        // Menghitung total harga untuk JobJoki
+        $totalKeuntunganJobJoki = 0; 
+        foreach ($dataJobJoki as $key) {
+            $totalKeuntunganJobJoki += $key->harga;
+        }
+
+        // Menghitung total harga untuk JobTopup
+        $totalHargaJobTopup = 0; 
+        $totalModalJobTopup = 0; 
+        foreach ($dataJobTopup as $key) {
+            $totalHargaJobTopup += $key->harga_jual;
+            $totalModalJobTopup += $key->modal;
+        }
+        $totalKeuntunganJobTopup = $totalHargaJobTopup - $totalModalJobTopup;
+
+        // Menghitung total harga untuk JobDrink
+        $totalHargaJobDrink = 0; 
+        $totalModalJobDrink = 0; 
+        foreach ($dataJobDrink as $key) {
+            $totalHargaJobDrink += $key->harga_jual;
+            $totalModalJobDrink += $key->modal;
+        }
+        $totalKeuntunganJobDrink = $totalHargaJobDrink - $totalModalJobDrink;
+
+        $totalSeluruhKeuntungan = $totalKeuntunganJobService + $totalKeuntunganJobSparepart + $totalKeuntunganJobProgram + $totalKeuntunganJobJoki + $totalKeuntunganJobTopup + $totalKeuntunganJobDrink;
+        function hitungPersentase($nilai, $persen) {
+            return $nilai * ($persen / 100);
+        }
+        $danaPengembangan = hitungPersentase($totalSeluruhKeuntungan, 20);
+        $danaBagiHasil = hitungPersentase($totalSeluruhKeuntungan, 80);
+        $totalKeuntunganInvestor = hitungPersentase($totalKeuntunganJobService, 40) + 
+                                hitungPersentase($totalKeuntunganJobSparepart, 100) +
+                                hitungPersentase($totalKeuntunganJobProgram, 20) +
+                                hitungPersentase($totalKeuntunganJobJoki, 40) +
+                                hitungPersentase($totalKeuntunganJobTopup, 100) +
+                                hitungPersentase($totalKeuntunganJobDrink, 100);
+        $keuntunganInvestor1 = hitungPersentase($totalKeuntunganInvestor, 50);
+        $keuntunganInvestor2 = hitungPersentase($totalKeuntunganInvestor, 2);
+        $keuntunganOwner = hitungPersentase($totalKeuntunganInvestor, 48);
+        $keuntunganOwner = $keuntunganOwner + ($danaBagiHasil - $totalKeuntunganInvestor);
+
+        $prsntService = hitungPersentase($totalKeuntunganJobService, 40);
+        $prsntSparepart = hitungPersentase($totalKeuntunganJobSparepart, 100);
+        $prsntProgram = hitungPersentase($totalKeuntunganJobProgram, 20);
+        $prsntJoki = hitungPersentase($totalKeuntunganJobJoki, 40);
+        $prsntTopup = hitungPersentase($totalKeuntunganJobTopup, 100);
+        $prsntDrink = hitungPersentase($totalKeuntunganJobDrink, 100);
+
+        // dump($prsntService);
+        // dump($prsntSparepart);
+        // dump($prsntProgram);
+        // dump($prsntJoki);
+        // dump($prsntTopup);
+        // dump($prsntDrink);
+
+        // Mengirim data harga ke view
+        return view('admin.laporan', compact(
+            'totalKeuntunganJobService', 
+            'totalHargaJobSparepart', 
+            'totalModalJobSparepart', 
+            'totalKeuntunganJobSparepart',
+            'totalKeuntunganJobProgram', 
+            'totalKeuntunganJobJoki', 
+            'totalHargaJobTopup', 
+            'totalModalJobTopup',
+            'totalKeuntunganJobTopup',
+            'totalHargaJobDrink',
+            'totalModalJobDrink',
+            'totalKeuntunganJobDrink',
+            'totalSeluruhKeuntungan',
+            'danaPengembangan',
+            'danaBagiHasil',
+            'totalKeuntunganInvestor',
+            'keuntunganInvestor1',
+            'keuntunganInvestor2',
+            'keuntunganOwner',
+            'titlePeriode',
+            'jenisLaporan',
+            'resultForReport',
+        ));
+    }
+}
