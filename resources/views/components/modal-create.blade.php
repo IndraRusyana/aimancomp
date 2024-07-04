@@ -42,7 +42,20 @@
 
                 columns.forEach(column => {
                     let isDateField = column.toLowerCase() === 'tanggal'; // Misalnya, kolom tanggal bernama 'tanggal'
-                    if (!isDateField) {
+                    let isStatusField = column.toLowerCase() === 'status'; // Cek apakah kolom adalah status
+                    if (isStatusField) {
+                        formFields += `
+                            <div class="mb-3">
+                                <label for="${column}" class="form-label">${column}</label>
+                                <select class="form-select" id="${column}" name="${column}" required>
+                                    <option value="selesai">Selesai</option>
+                                    <option value="proses">Proses</option>
+                                    <option value="pending">Pending</option>
+                                </select>
+                                <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-${column}"></div>
+                            </div>
+                        `;
+                    } else if (!isDateField) {
                         formFields += `
                             <div class="mb-3">
                                 <label for="${column}" class="form-label">${column}</label>

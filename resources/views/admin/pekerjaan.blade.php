@@ -81,7 +81,23 @@
                                             @foreach ($query as $item)
                                                 <tr id="index_{{ $item->id }}" data-id="{{ $item->id }}">
                                                     @foreach ($columnsSubset as $column)
-                                                        <td>{{ $item->$column }}</td>
+                                                        @if (strtolower($column) === 'status')
+                                                            @php
+                                                                $statusClass = '';
+                                                                if ($item->$column === 'selesai') {
+                                                                    $statusClass = 'badge bg-label-success';
+                                                                } elseif ($item->$column === 'proses') {
+                                                                    $statusClass = 'badge bg-label-warning';
+                                                                } elseif ($item->$column === 'pending') {
+                                                                    $statusClass = 'badge bg-label-danger';
+                                                                }
+                                                            @endphp
+                                                            <td>
+                                                                <span class="{{ $statusClass }}">{{ $item->$column }}</span> 
+                                                            </td>
+                                                        @else
+                                                            <td>{{ $item->$column }}</td>
+                                                        @endif
                                                     @endforeach
                                                     <td>
                                                         <div class="dropdown">

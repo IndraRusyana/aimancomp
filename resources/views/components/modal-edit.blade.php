@@ -47,15 +47,71 @@
                 for (let i = 0; i < thead.length; i++) {
                     let fieldName = thead[i].toLowerCase();
                     let isDateField = fieldName === 'tanggal'; // Misalnya, kolom tanggal bernama 'tanggal'
+                    let isStatusField = fieldName === 'status'; // Cek apakah kolom adalah status
 
-                    formFields += `
-                        <div class="mb-3">
-                            <label for="edit_${fieldName}" class="form-label">${thead[i]}</label>
-                            <input type="text" class="form-control" id="edit_${fieldName}" name="${fieldName}" value="${data[fieldName]}" ${isDateField ? 'readonly' : ''} required>
-                        </div>
-                    `;
+                    if (isStatusField) {
+                        formFields += `
+                            <div class="mb-3">
+                                <label for="edit_${fieldName}" class="form-label">${thead[i]}</label>
+                                <select class="form-select" id="edit_${fieldName}" name="${fieldName}" required>
+                                    <option value="selesai" ${data[fieldName] === 'selesai' ? 'selected' : ''}>Selesai</option>
+                                    <option value="proses" ${data[fieldName] === 'proses' ? 'selected' : ''}>Proses</option>
+                                    <option value="pending" ${data[fieldName] === 'pending' ? 'selected' : ''}>Pending</option>
+                                </select>
+                            </div>
+                        `;
+                    } else if (isDateField) {
+                        formFields += `
+                            <div class="mb-3">
+                                <label for="edit_${fieldName}" class="form-label">${thead[i]}</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dateOption-${fieldName}" id="manual-${fieldName}" value="manual" ${!data[fieldName] ? 'checked' : ''}>
+                                    <label class="form-check-label" for="manual-${fieldName}">
+                                        Ubah
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dateOption-${fieldName}" id="auto-${fieldName}" value="auto" ${data[fieldName] ? 'checked' : ''}>
+                                    <label class="form-check-label" for="auto-${fieldName}">
+                                        Tetap
+                                    </label>
+                                </div>
+                                <input type="date" class="form-control" id="date-input-${fieldName}" name="${fieldName}" value="${data[fieldName] ? '' : data[fieldName]}" ${data[fieldName] ? 'disabled' : ''} required>
+                                <input type="hidden" class="form-control" id="date-auto-${fieldName}" name="${fieldName}" value="${data[fieldName] ? data[fieldName] : ''}" ${!data[fieldName] ? 'disabled' : ''}>
+                            </div>
+                        `;
+                    } else {
+                        formFields += `
+                            <div class="mb-3">
+                                <label for="edit_${fieldName}" class="form-label">${thead[i]}</label>
+                                <input type="text" class="form-control" id="edit_${fieldName}" name="${fieldName}" value="${data[fieldName]}" required>
+                            </div>
+                        `;
+                    }
                 }
                 $('#editFormFields').html(formFields);
+                // Tambahkan event listener untuk radio button date input manual dan otomatis
+                thead.forEach(fieldName => {
+                    let lowerFieldName = fieldName.toLowerCase();
+                    let isDateField = lowerFieldName === 'tanggal';
+                    if (isDateField) {
+                        document.getElementById(`manual-${lowerFieldName}`).addEventListener('change', function() {
+                            if (this.checked) {
+                                document.getElementById(`date-input-${lowerFieldName}`).disabled = false;
+                                document.getElementById(`date-auto-${lowerFieldName}`).disabled = true;
+                            }
+                        });
+
+                        document.getElementById(`auto-${lowerFieldName}`).addEventListener('change', function() {
+                            if (this.checked) {
+                                document.getElementById(`date-input-${lowerFieldName}`).disabled = true;
+                                document.getElementById(`date-auto-${lowerFieldName}`).disabled = false;
+                                // Logic to auto-fill the date can be added here
+                            }
+                        });
+                    }
+                });
+
                 $('#editDataModal').modal('show');
             }
         });

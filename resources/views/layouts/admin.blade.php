@@ -137,7 +137,22 @@
                     data.forEach(item => {
                         body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
                         columns.forEach(column => {
-                            body += '<td>' + item[column] + '</td>';
+                            if (column.toLowerCase() === 'status') {
+                                let statusClass = '';
+                                if (item[column] === 'selesai') {
+                                    statusClass = 'badge bg-label-success';
+                                } else if (item[column] === 'proses') {
+                                    statusClass = 'badge bg-label-warning';
+                                } else if (item[column] === 'pending') {
+                                    statusClass = 'badge bg-label-danger';
+                                }
+                                body += `
+                                    <td>
+                                        <span class="${statusClass}">${item[column]}</span>
+                                    </td>`;
+                            } else {
+                                body += '<td>' + item[column] + '</td>';
+                            }
                         });
                         body += `
                             <td>
