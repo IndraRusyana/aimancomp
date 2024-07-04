@@ -91,6 +91,9 @@
         </div>
     </div> --}}
 
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle" style="z-index:996"></div>
+
     @include('components.modal-create')
     @include('components.modal-edit')
     @include('components.delete-data')

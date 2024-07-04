@@ -2,7 +2,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="z-index: 998">
     <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
+        <a href="/" class="app-brand-link">
             <img src="{{asset('assets\img\icons\brands\aiman.png')}}" alt="" srcset="" width="50">
             <span class="app-brand-text demo menu-text fw-bolder ms-2">Aiman Comp</span>
         </a>
