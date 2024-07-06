@@ -24,7 +24,7 @@ class LaporanController extends Controller
         $endDate = $request->end_date;
 
         $financialData = FinancialReportService::generateFinancialData($jenisLaporan, $dateInput, $monthYear, $startDate, $endDate);
-        dump($financialData);
+        // dump($financialData);
         // Mengirim data harga ke view
         return view('admin.laporan', $financialData);
     }

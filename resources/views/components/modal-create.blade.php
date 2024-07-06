@@ -35,6 +35,8 @@
             cache: false,
             success: function(response) {
                 let columns = response.columnsSubset;
+                let sparepart = response.sparepart;
+                console.log(sparepart);
                 let formFields = '';
 
                 // Clear the form fields before adding new ones

@@ -55,7 +55,7 @@
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Web Store</span></li>
         <!-- Cards -->
         <li class="menu-item @yield('store')">
-            <a href="" class="menu-link">
+            <a href="/admin/store" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-store"></i>
                 <div data-i18n="Basic">Manajemen</div>
             </a>

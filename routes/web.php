@@ -8,8 +8,8 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/admin/home');
+Route::fallback(function () {
+    return redirect('/store');
 });
 
 /* This block of code defines a group of routes that are accessible only to guests, meaning users who
@@ -46,8 +46,10 @@ Route::group(['middleware' => 'isAdmin'], function () {
 
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('laporanIndex');
     Route::get('/generate-pdf', [PdfController::class, 'generateFinancialReport'])->name('reportFinancial');
-    Route::get('/admin/store', [StoreController::class, 'index'])->name('store');
+    Route::resource('/admin/store', App\Http\Controllers\StoreController::class);
 });
+
+Route::get('/store', [StoreController::class, 'showWebStore']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

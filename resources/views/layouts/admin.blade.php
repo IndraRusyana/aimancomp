@@ -98,6 +98,26 @@
     @include('components.modal-edit')
     @include('components.delete-data')
 
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show position-fixed" style="z-index: 1099; top: 20px; right: 20px;" role="alert">
+            <strong>Error:</strong> Terdapat kesalahan dalam inputan Anda.
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show position-fixed" style="z-index: 1099; top: 20px; right: 20px;" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+
     <script>
         $('#dataType li a').on('click', function (event) {
             event.preventDefault();

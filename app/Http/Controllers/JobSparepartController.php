@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobSparepart;
+use App\Models\Sparepart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -23,6 +24,7 @@ class JobSparepartController extends Controller
     {
         //get all jobspareparts from Models
         $query = JobSparepart::latest()->get();
+        $sparepart = Sparepart::all();
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -37,11 +39,12 @@ class JobSparepartController extends Controller
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'sparepart' => $sparepart,
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','sparepart'));
     }
 
     public function store(Request $request)
