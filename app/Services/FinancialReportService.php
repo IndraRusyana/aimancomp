@@ -60,7 +60,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobDrink = JobDrink::whereBetween('tanggal', [$startDate, $endDate])->get();
-            $dataPengeluaran = Pengeluaran::whereDate('tanggal', [$startDate, $endDate])->get();
+            $dataPengeluaran = Pengeluaran::whereBetween('tanggal', [$startDate, $endDate])->get();
 
         } else {
             // Query untuk semua data

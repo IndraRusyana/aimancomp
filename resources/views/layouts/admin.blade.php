@@ -20,8 +20,8 @@
     <!-- Icons. Uncomment required icon fonts -->
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" /> --}}
     {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
-    <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    {{-- <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"> --}}
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -164,7 +164,6 @@
 
                     // Create table body
                     let body = '';
-                    let pagination = '';
                     data.forEach(item => {
                         body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
                         columns.forEach(column => {

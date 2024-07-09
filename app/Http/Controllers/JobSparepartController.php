@@ -23,7 +23,7 @@ class JobSparepartController extends Controller
     public function index(Request $request)
     {
         //get all jobspareparts from Models
-        $query = JobSparepart::latest()->paginate(8);
+        $query = JobSparepart::latest()->get();
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -73,7 +73,7 @@ class JobSparepartController extends Controller
         //create service
         $jobspareparts = JobSparepart::create($request->all());
 
-        $query = JobService::latest()->paginate(8);
+        $query = JobService::latest()->get();
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -134,7 +134,7 @@ class JobSparepartController extends Controller
         //create post
         $jobsparepart->update($request->all());
 
-        $query = JobService::latest()->paginate(8);
+        $query = JobService::latest()->get();
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
