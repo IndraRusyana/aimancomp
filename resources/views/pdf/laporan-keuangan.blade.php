@@ -88,6 +88,7 @@
             <h2>Dana Pengembangan dan Bagi Hasil</h2>
             <p>Dana Pengembangan: Rp {{ number_format($danaPengembangan, 0, ',', '.') }}</p>
             <p>Dana Bagi Hasil: Rp {{ number_format($danaBagiHasil, 0, ',', '.') }}</p>
+            <p>Total Pengeluaran: Rp {{ number_format($totalNominal, 0, ',', '.') }}</p>
             <p>Total Keuntungan Investor: Rp {{ number_format($totalKeuntunganInvestor, 0, ',', '.') }}</p>
         </div>
 

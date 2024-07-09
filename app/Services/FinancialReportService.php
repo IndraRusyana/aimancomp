@@ -10,6 +10,7 @@ use App\Models\JobProgram;
 use App\Models\JobJoki;
 use App\Models\JobTopup;
 use App\Models\JobDrink;
+use App\Models\Pengeluaran;
 
 class FinancialReportService
 {
@@ -19,6 +20,7 @@ class FinancialReportService
         $result['jenisLaporan'] = $jenisLaporan;
         $result['resultForReport'] = '';
 
+
         if ($dateInput) {
             // Query untuk data berdasarkan tanggal
             $dataJobService = JobService::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
@@ -27,6 +29,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
             $dataJobDrink = JobDrink::whereDate('tanggal', $dateInput)->get();
+            $dataPengeluaran = Pengeluaran::whereDate('tanggal', $dateInput)->get();
 
             $result['titlePeriode'] = Carbon::parse($dateInput)->translatedFormat('l, d F Y');
             $result['resultForReport'] = $dateInput;
@@ -41,6 +44,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
             $dataJobDrink = JobDrink::whereMonth('tanggal', $monthInput)->get();
+            $dataPengeluaran = Pengeluaran::whereMonth('tanggal', $monthInput)->get();
 
             $result['titlePeriode'] = Carbon::createFromDate($yearInput, $monthInput, 1)->translatedFormat('F Y');
             $result['resultForReport'] = $monthYear;
@@ -56,6 +60,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobDrink = JobDrink::whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataPengeluaran = Pengeluaran::whereDate('tanggal', [$startDate, $endDate])->get();
 
         } else {
             // Query untuk semua data
@@ -65,9 +70,12 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->get();
             $dataJobDrink = JobDrink::all();
+            $dataPengeluaran = Pengeluaran::all();
 
             $result['titlePeriode'] = 'Semua waktu';
         }
+
+        $result['dataPengeluaran'] = $dataPengeluaran;
 
         // Hitung total keuntungan untuk masing-masing jenis
         $result['totalKeuntunganJobService'] = self::calculateTotalKeuntungan($dataJobService, 'harga');
@@ -76,6 +84,7 @@ class FinancialReportService
         $result['totalKeuntunganJobJoki'] = self::calculateTotalKeuntungan($dataJobJoki, 'harga');
         $result['totalKeuntunganJobTopup'] = self::calculateTotalKeuntungan($dataJobTopup, 'harga_jual', 'modal');
         $result['totalKeuntunganJobDrink'] = self::calculateTotalKeuntungan($dataJobDrink, 'harga_jual', 'modal');
+        $result['totalNominal'] = self::calculateTotalKeuntungan($dataPengeluaran, 'nominal');
 
         // menghitung harga jual dan harga awal / modal
         $totalHargaJobSparepart = 0; 
@@ -118,12 +127,13 @@ class FinancialReportService
         // Hitung dana pengembangan, bagi hasil, dan keuntungan investor/owner
         $result['danaPengembangan'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 20);
         $result['danaBagiHasil'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 80);
-        $result['totalKeuntunganInvestor'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 40) +
+        $result['totalKeuntunganInvestor'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40) +
                                              self::hitungPersentase($result['totalKeuntunganJobSparepart'], 100) +
                                              self::hitungPersentase($result['totalKeuntunganJobProgram'], 20) +
                                              self::hitungPersentase($result['totalKeuntunganJobJoki'], 40) +
                                              self::hitungPersentase($result['totalKeuntunganJobTopup'], 100) +
-                                             self::hitungPersentase($result['totalKeuntunganJobDrink'], 100);
+                                             self::hitungPersentase($result['totalKeuntunganJobDrink'], 100) -
+                                             $result['totalNominal'];
         $result['keuntunganInvestor1'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 50);
         $result['keuntunganInvestor2'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 2);
         $result['keuntunganOwner'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 48) +

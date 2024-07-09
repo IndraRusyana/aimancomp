@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class InvestorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            // Check if the route is 'generate-pdf'
-            if ($request->is('/generate-pdf')) {
+        if (Auth::check() && Auth::user()->role == 'investor') {
+            // Check if the route is one of the restricted admin routes
+            if ($request->is('/admin/layanan/*', '/admin/pekerjaan/*', '/admin/laporan/*', '/admin/pengeluaran/*', '/admin/store/*')) {
                 return redirect('/admin/home');
             }
         }

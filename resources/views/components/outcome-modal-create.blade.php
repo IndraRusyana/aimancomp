@@ -1,16 +1,16 @@
 <!-- Modal for adding new data -->
-<div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addDataModalLabel" aria-hidden="true">
+<div class="modal fade" id="addDataOutcomeModal" tabindex="-1" aria-labelledby="addDataOutcomeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="addDataForm">
+            <form id="addDataOutcomeForm">
                 @csrf
                 <div class="modal-header">
                     <span class="error" id="emailError"></span>
-                    <h5 class="modal-title" id="addDataModalLabel">Tambah Data Baru</h5>
+                    <h5 class="modal-title" id="addDataOutcomeModalLabel">Tambah Pengeluaran</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="formFields"></div>
+                    <div id="formFieldsOutcome"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -23,11 +23,8 @@
 
 <script>
     //button create event
-    $('body').on('click', '#addDataButton', function() {
-        let activeType = $('#dataType li a.active');
-        let dataResult = activeType.parent().attr('data-value');
-        let dataType = JSON.parse(dataResult);
-        url = '/admin/' + dataType.path + '/' + dataType.menu;
+    $('body').on('click', '#addDataOutcomeButton', function() {
+        url = '/admin/pengeluaran';
 
         $.ajax({
             url: url,
@@ -35,28 +32,15 @@
             cache: false,
             success: function(response) {
                 let columns = response.columnsSubset;
-                let formFields = '';
+                let formFieldsOutcome = '';
 
                 // Clear the form fields before adding new ones
-                $('#formFields').html('');
+                $('#formFieldsOutcome').html('');
 
                 columns.forEach(column => {
-                    let isDateField = column.toLowerCase() === 'tanggal'; // Misalnya, kolom tanggal bernama 'tanggal'
-                    let isStatusField = column.toLowerCase() === 'status'; // Cek apakah kolom adalah status
-                    if (isStatusField) {
-                        formFields += `
-                            <div class="mb-3">
-                                <label for="${column}" class="form-label">${column}</label>
-                                <select class="form-select" id="${column}" name="${column}" required>
-                                    <option value="selesai">Selesai</option>
-                                    <option value="proses">Proses</option>
-                                    <option value="pending">Pending</option>
-                                </select>
-                                <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-${column}"></div>
-                            </div>
-                        `;
-                    } else if (!isDateField) {
-                        formFields += `
+                    let isDateField = column.toLowerCase() === 'tanggal';
+                    if (!isDateField) {
+                        formFieldsOutcome += `
                             <div class="mb-3">
                                 <label for="${column}" class="form-label">${column}</label>
                                 <input type="text" class="form-control" id="${column}" name="${column}" required>
@@ -64,7 +48,7 @@
                             </div>
                         `;
                     } else {
-                        formFields += `
+                        formFieldsOutcome += `
                             <div class="mb-3">
                                 <label for="${column}" class="form-label">${column}</label>
                                 <div class="form-check">
@@ -86,9 +70,7 @@
                         `;
                     }
                 });
-
-                $('#formFields').html(formFields);
-
+                $('#formFieldsOutcome').html(formFieldsOutcome);
                 $('input[name="dateOption"]').on('change', function() {
                     let column = $(this).attr('id').split('-')[1];
                     if ($(this).val() === 'manual') {
@@ -106,26 +88,16 @@
         })
 
         //open modal
-        $('#addDataModal').modal('show');
+        $('#addDataOutcomeModal').modal('show');
     });
 
     //action create post
-    $('#addDataForm').on('submit', function(e){
+    $('#addDataOutcomeForm').on('submit', function(e){
         e.preventDefault();
         
         let formData = $(this).serialize();
-        //define variable
-        // let title = $('#title').val();
-        // let content = $('#content').val();
         let token = $("meta[name='csrf-token']").attr("content");
-
-        let activeType = $('#dataType li a.active');
-        let dataResult = activeType.parent().attr('data-value');
-        let dataType = JSON.parse(dataResult);
-        url = '/admin/' + dataType.path + '/' + dataType.menu;
-
-        console.log(url);
-
+        url = '/admin/pengeluaran';
         //ajax
         $.ajax({
 
@@ -140,6 +112,8 @@
 
                 let columns = response.columnsSubset;
                 let data = response.query;
+                console.log(columns);
+                console.log(data);
 
                 //show success message
                 Swal.fire({
@@ -153,7 +127,7 @@
                 //data post
                 let body = '';
                     data.forEach(item => {
-                        body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
+                        body += '<tr id="outcome_' + item.id + '" data-id="' + item.id + '">';
                         columns.forEach(column => {
                             body += '<td>' + item[column] + '</td>';
                         });
@@ -164,10 +138,10 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-button" href="javascript:void(0);" data-id="${item.id}">
+                                        <a class="dropdown-item edit-outcome-button" href="javascript:void(0);" data-id="${item.id}">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
-                                        <a class="dropdown-item delete-button" href="javascript:void(0);" data-id="${item.id}">
+                                        <a class="dropdown-item delete-outcome-button" href="javascript:void(0);" data-id="${item.id}">
                                             <i class="bx bx-trash me-1"></i> Delete
                                         </a>
                                     </div>
@@ -177,9 +151,9 @@
                     });
                 
                 //append to table
-                $('#tableBody').html(body);
-                $('#addDataModal').modal('hide');
-                $('#addDataForm')[0].reset();
+                $('#tableOutcomeBody').html(body);
+                $('#addDataOutcomeModal').modal('hide');
+                $('#addDataOutcomeForm')[0].reset();
 
 
             },

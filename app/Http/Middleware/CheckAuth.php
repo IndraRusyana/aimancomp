@@ -7,21 +7,24 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class CheckAuth
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            // Check if the route is 'generate-pdf'
-            if ($request->is('/generate-pdf')) {
-                return redirect('/admin/home');
-            }
+        if (!Auth::check()) {
+            return redirect('/login');
         }
-        return $next($request);
+
+        $user = Auth::user();
+        if (in_array($user->role, $roles)) {
+            return $next($request);
+        }
+
+        return redirect('/unauthorized');
     }
 }

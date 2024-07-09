@@ -23,8 +23,7 @@ class JobSparepartController extends Controller
     public function index(Request $request)
     {
         //get all jobspareparts from Models
-        $query = JobSparepart::latest()->get();
-        $sparepart = Sparepart::all();
+        $query = JobSparepart::latest()->paginate(8);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -39,12 +38,11 @@ class JobSparepartController extends Controller
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
-                'sparepart' => $sparepart,
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset','sparepart'));
+        return view('admin.pekerjaan', compact('query','columnsSubset'));
     }
 
     public function store(Request $request)
@@ -75,7 +73,7 @@ class JobSparepartController extends Controller
         //create service
         $jobspareparts = JobSparepart::create($request->all());
 
-        $query = JobSparepart::latest()->get();
+        $query = JobService::latest()->paginate(8);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -136,7 +134,7 @@ class JobSparepartController extends Controller
         //create post
         $jobsparepart->update($request->all());
 
-        $query = JobSparepart::latest()->get();
+        $query = JobService::latest()->paginate(8);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);

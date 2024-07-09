@@ -16,6 +16,7 @@ Route::get('/admin', function () {
     return redirect('/admin/home');
 });
 
+
 /* This block of code defines a group of routes that are accessible only to guests, meaning users who
  are not authenticated. Within this group: */
 Route::group(['middleware' => 'guest'], function () {
@@ -23,7 +24,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/admin/login', [AuthController::class, 'loginPost'])->name('loginAdmin');
 });
 
-Route::group(['middleware' => ['role:admin,owner']], function () {
+Route::group(['middleware' => 'isAdmin'], function () {
     Route::get('/admin/home', [HomeController::class, 'index'])->name('dashboardAdmin');
     Route::delete('/admin/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -50,15 +51,8 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
 
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('laporanIndex');
     Route::resource('/admin/pengeluaran', App\Http\Controllers\PengeluaranController::class);
-    Route::resource('/admin/store', App\Http\Controllers\StoreController::class);
-});
-
-Route::group(['middleware' => ['role:investor,owner']], function () {
-    //-- Route for crud keanggotaan --//
-    Route::resource('/admin/keanggotaan/admins', App\Http\Controllers\AdminController::class);
-    Route::resource('/admin/keanggotaan/investors', App\Http\Controllers\InvestorController::class);
-    Route::resource('/admin/keanggotaan/owners', App\Http\Controllers\OwnerController::class);
     Route::get('/generate-pdf', [PdfController::class, 'generateFinancialReport'])->name('reportFinancial');
+    Route::resource('/admin/store', App\Http\Controllers\StoreController::class);
 });
 
 Route::get('/store', [StoreController::class, 'showWebStore']);

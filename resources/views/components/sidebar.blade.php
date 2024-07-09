@@ -27,30 +27,46 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Admin</span>
         </li>
-        <li class="menu-item @yield('layanan')" data-value='{"path":"menu"}'>
-            <a href="/admin/layanan/services" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-list-ul"></i>
-                <div data-i18n="Layanan">Layanan</div>
-            </a>    
-        </li>
-        <li class="menu-item @yield('keanggotaan')">
-            <a href="/admin/keanggotaan/admins" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-user-detail"></i>
-                <div data-i18n="Table Keanggotaan">Table Keanggotaan</div>
-            </a>
-        </li>
+        @if(auth()->check())
+        @if(auth()->user()->isOwner() || auth()->user()->isAdmin() || auth()->user()->isOwner())
+            <li class="menu-item @yield('layanan')" data-value='{"path":"menu"}'>
+                <a href="/admin/layanan/services" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                    <div data-i18n="Layanan">Layanan</div>
+                </a>    
+            </li>
+        @endif
+        @if(auth()->user()->isOwner() || auth()->user()->isAdmin() || auth()->user()->isInvestor())
+            <li class="menu-item @yield('keanggotaan')">
+                <a href="/admin/keanggotaan/admins" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-user-detail"></i>
+                    <div data-i18n="Table Keanggotaan">Table Keanggotaan</div>
+                </a>
+            </li>
+        @endif
+        @if(auth()->user()->isOwner() || auth()->user()->isAdmin())
         <li class="menu-item @yield('pekerjaan')">
             <a href="/admin/pekerjaan/jobservices" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-task"></i>
                 <div data-i18n="Daftar Pekerjaan">Daftar Pekerjaan</div>
             </a>
         </li>
+        <li class="menu-item @yield('pengeluaran')">
+            <a href="/admin/pengeluaran" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-dollar"></i>
+                <div data-i18n="Daftar Pekerjaan">Pengeluaran</div>
+            </a>
+        </li>
+        @endif
+        @if(auth()->user()->isOwner() || auth()->user()->isAdmin() || auth()->user()->isInvestor())
         <li class="menu-item @yield('laporan')">
             <a href="/admin/laporan" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-report"></i>
                 <div data-i18n="Daftar Pekerjaan">Laporan Keuangan</div>
             </a>
         </li>
+        @endif
+        @if(auth()->user()->isOwner() || auth()->user()->isAdmin())
         <!-- Components -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Web Store</span></li>
         <!-- Cards -->
@@ -60,6 +76,8 @@
                 <div data-i18n="Basic">Manajemen</div>
             </a>
         </li>
+        @endif
+        @endif
     </ul>
 </aside>
 <!-- / Menu -->

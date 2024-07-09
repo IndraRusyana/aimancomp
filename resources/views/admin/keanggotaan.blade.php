@@ -59,7 +59,9 @@
                                             @foreach ($columnsSubset as $column)
                                                 <th>{{$column}}</th>
                                             @endforeach
+                                            @if(auth()->user()->isOwner())
                                             <th>Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" id="tableBody">
@@ -68,6 +70,7 @@
                                                 @foreach ($columnsSubset as $column)
                                                     <td>{{ $item->$column }}</td>
                                                 @endforeach
+                                                @if(auth()->user()->isOwner())
                                                 <td>
                                                     <div class="dropdown">
                                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -83,9 +86,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    @if(auth()->user()->isOwner())
                                     <tfoot class="">
                                         <tr>
                                             <th colspan="5">
@@ -96,6 +101,7 @@
                                             </th>
                                         </tr>
                                     </tfoot>
+                                    @endif
                                 </table>
                             </div>
                         </div>

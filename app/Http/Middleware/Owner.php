@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class Owner
 {
     /**
      * Handle an incoming request.
@@ -16,12 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            // Check if the route is 'generate-pdf'
-            if ($request->is('/generate-pdf')) {
-                return redirect('/admin/home');
-            }
-        }
+        Auth::check() && Auth::user()->role == 'owner';
         return $next($request);
     }
 }

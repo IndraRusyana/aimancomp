@@ -22,7 +22,7 @@ class JobServiceController extends Controller
     public function index(Request $request)
     {
         //get all jobservices from Models
-        $query = JobService::latest()->get();
+        $query = JobService::latest()->paginate(8);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
@@ -77,7 +77,7 @@ class JobServiceController extends Controller
         //create service
         $jobservices = JobService::create($request->all());
 
-        $query = JobService::latest()->get();
+        $query = JobService::latest()->paginate(8);
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
             return $item;
@@ -141,7 +141,7 @@ class JobServiceController extends Controller
         //create post
         $jobservice->update($request->all());
 
-        $query = JobService::latest()->get();
+        $query = JobService::latest()->paginate(8);
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
             return $item;

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
+use App\Models\UserModel;
 
 class AppServiceProvider extends ServiceProvider
 {

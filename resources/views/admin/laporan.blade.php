@@ -110,6 +110,7 @@
                                                 </div>
                                             </h5>
                                         </div>
+                                        @if(auth()->user()->isOwner() || auth()->user()->isOwner())
                                         <div class="col-2">
                                             <form id="pdfForm" action="{{ route('reportFinancial') }}" method="GET" target="_blank">
                                                 <input type="hidden" name="jenisLaporan" id="jenisLaporanInput" value="{{ $jenisLaporan }}">
@@ -117,6 +118,7 @@
                                                 <button type="submit" class="btn btn-primary my-3">Cetak Laporan</button>
                                             </form>
                                         </div>
+                                        @endif
                                     </div>
 
                                 </div>
@@ -444,8 +446,8 @@
                                                             alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">Total keuntungan investor</span>
-                                                <h3 class="card-title mb-2">@formatRupiah($totalKeuntunganInvestor)</h3>
+                                                <span class="fw-semibold d-block mb-1">Total Pengeluaran</span>
+                                                <h3 class="card-title mb-2">@formatRupiah($totalNominal)</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -453,7 +455,7 @@
                             </div>
                             {{-- keuntungan per investor --}}
                             <div class="col-md-6 col-lg-4 order-1 mb-4">
-                                <div class="card h-100">
+                                <div class="card">
                                     <div class="card-header d-flex align-items-center justify-content-between">
                                         <h5 class="card-title m-0 me-2">Keuntungan Per Investor</h5>
                                     </div>
@@ -464,8 +466,7 @@
                                                     <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
                                                         class="rounded" />
                                                 </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
                                                         <h6 class="mb-0">Investor 1</h6>
                                                         <small class="text-muted">50%</small>
@@ -480,8 +481,7 @@
                                                     <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
                                                         class="rounded" />
                                                 </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
                                                         <h6 class="mb-0">Investor 2</h6>
                                                         <small class="text-muted">2%</small>
@@ -494,7 +494,20 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-start justify-content-between">
+                                            <div class="avatar flex-shrink-0">
+                                                <img src="../assets/img/icons/unicons/cc-warning.png"
+                                                    alt="chart warning" class="rounded" />
+                                            </div>
+                                        </div>
+                                        <span class="fw-semibold d-block mb-1">Total keuntungan Investor</span>
+                                        <h3 class="card-title mb-2">@formatRupiah($totalKeuntunganInvestor)</h3>
+                                    </div>
+                                </div>
                             </div>
+                            
                             {{-- keuntungan owner --}}
                             <div class="col-md-6 col-lg-4 order-2 mb-4">
                                 <div class="card">

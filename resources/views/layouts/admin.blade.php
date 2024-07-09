@@ -18,7 +18,10 @@
 
     <!-- CSS style from template -->
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" /> --}}
+    {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -95,8 +98,11 @@
     <div class="layout-overlay layout-menu-toggle" style="z-index:996"></div>
 
     @include('components.modal-create')
+    @include('components.outcome-modal-create')
     @include('components.modal-edit')
+    @include('components.outcome-modal-edit')
     @include('components.delete-data')
+    @include('components.outcome-delete-data')
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show position-fixed" style="z-index: 1099; top: 20px; right: 20px;" role="alert">
@@ -149,11 +155,16 @@
                     columns.forEach(column => {
                         head += '<th>' + column + '</th>';
                     });
-                    head += '<th>Actions</th></tr>';
+                    @if(auth()->check())
+                        @if(auth()->user()->isOwner())
+                        head += '<th>Actions</th></tr>';
+                    @endif
+                    @endif
                     $('#tableHead').html(head);
 
                     // Create table body
                     let body = '';
+                    let pagination = '';
                     data.forEach(item => {
                         body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
                         columns.forEach(column => {
@@ -175,6 +186,8 @@
                             }
                         });
                         body += `
+                        @if(auth()->check())
+                        @if(auth()->user()->isOwner())
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -190,6 +203,8 @@
                                     </div>
                                 </div>
                             </td>
+                            @endif
+                        @endif
                         </tr>`;
                     });
                     $('#tableBody').html(body);
