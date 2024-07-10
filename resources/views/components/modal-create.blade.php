@@ -147,39 +147,17 @@
                     icon: 'success',
                     title: `${response.message}`,
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 1500
                 });
 
-                //data post
-                let body = '';
-                    data.forEach(item => {
-                        body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
-                        columns.forEach(column => {
-                            body += '<td>' + item[column] + '</td>';
-                        });
-                        body += `
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>`;
-                    });
                 
-                //append to table
-                $('#tableBody').html(body);
                 $('#addDataModal').modal('hide');
                 $('#addDataForm')[0].reset();
+
+                 // Reload the page after the notification appears
+                setTimeout(function() {
+                    location.reload();
+                }, 500); // Wait for 3000 milliseconds (3 seconds)
 
 
             },

@@ -39,11 +39,13 @@
                             icon: 'success',
                             title: `${response.message}`,
                             showConfirmButton: false,
-                            timer: 3000
+                            timer: 1500
                         });
 
-                        //remove post on table
-                        $(`#index_${id}`).remove();
+                        // Reload the page after the notification appears
+                        setTimeout(function() {
+                            location.reload();
+                        }, 500); // Wait for 3000 milliseconds (3 seconds)
                     }
                 });
 

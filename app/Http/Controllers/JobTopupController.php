@@ -22,7 +22,7 @@ class JobTopupController extends Controller
     public function index(Request $request)
     {
         //get all jobtopups from Models
-        $query = JobTopup::latest()->get();
+        $query = JobTopup::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);
@@ -32,16 +32,17 @@ class JobTopupController extends Controller
         // $columns = \Schema::getColumnListing('jobtopups');
         // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['provider', 'nomor_konsumen','modal', 'harga_jual', 'status', 'tanggal'];
-
+        $title = 'Topup';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'title' => $title
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','title'));
     }
 
     public function store(Request $request)
@@ -76,7 +77,7 @@ class JobTopupController extends Controller
         //create service
         $jobtopups = JobTopup::create($request->all());
 
-        $query = JobTopup::latest()->get();
+        $query = JobTopup::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);
@@ -140,7 +141,7 @@ class JobTopupController extends Controller
         //create post
         $jobtopup->update($request->all());
 
-        $query = JobTopup::latest()->get();
+        $query = JobTopup::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);

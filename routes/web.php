@@ -59,6 +59,7 @@ Route::group(['middleware' => ['role:investor,owner']], function () {
     Route::resource('/admin/keanggotaan/investors', App\Http\Controllers\InvestorController::class);
     Route::resource('/admin/keanggotaan/owners', App\Http\Controllers\OwnerController::class);
     Route::get('/generate-pdf', [PdfController::class, 'generateFinancialReport'])->name('reportFinancial');
+    Route::get('/generate-job-pdf', [PdfController::class, 'generateJobReport'])->name('reportJob');
 });
 
 Route::get('/store', [StoreController::class, 'showWebStore']);

@@ -126,41 +126,15 @@
                     icon: 'success',
                     title: `${response.message}`,
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 1500
                 });
 
-                let body = '';
-                data.forEach(item => {
-                    body += '<tr id="outcome_' + item.id + '" data-id="' + item.id + '">';
-                    columns.forEach(column => {
-                        body += '<td>' + item[column] + '</td>';
-                    });
-                    body += `
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-outcome-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-outcome-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>`;
-                });
-
-                //append to table
-                $('#tableOutcomeBody').html(body);
-
-                //close modal
                 $('#editDataOutcomeModal').modal('hide');
+                $('#editDataOutcomeForm')[0].reset();
 
-
+                setTimeout(function() {
+                    location.reload();
+                }, 500); // Wait for 3000 milliseconds (3 seconds)
             },
             error: function(error) {
 

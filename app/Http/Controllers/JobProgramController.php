@@ -21,7 +21,7 @@ class JobProgramController extends Controller
     public function index(Request $request)
     {
         //get all jobprograms from Models
-        $query = JobProgram::latest()->get();
+        $query = JobProgram::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
@@ -30,16 +30,17 @@ class JobProgramController extends Controller
         // $columns = \Schema::getColumnListing('jobprograms');
         // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['nama_project', 'client', 'deskripsi', 'estimasi_waktu_pengerjaan', 'input_dokumen', 'status', 'harga', 'tanggal'];
-
+        $title = 'Aplikasi';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'title' => $title,
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','title'));
     }
 
     public function store(Request $request)
@@ -76,7 +77,7 @@ class JobProgramController extends Controller
         //create service
         $jobprograms = JobProgram::create($request->all());
 
-        $query = JobProgram::latest()->get();
+        $query = JobProgram::latest()->paginate(10);
                 // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
@@ -141,7 +142,7 @@ class JobProgramController extends Controller
         //create post
         $jobprogram->update($request->all());
 
-        $query = JobProgram::latest()->get();
+        $query = JobProgram::latest()->paginate(10);
                 // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);

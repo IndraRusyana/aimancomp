@@ -23,7 +23,7 @@ class JobSparepartController extends Controller
     public function index(Request $request)
     {
         //get all jobspareparts from Models
-        $query = JobSparepart::latest()->get();
+        $query = JobSparepart::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -33,16 +33,18 @@ class JobSparepartController extends Controller
         // $columns = \Schema::getColumnListing('jobspareparts');
         // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['nama', 'gambar', 'kualitas', 'jumlah', 'harga_awal', 'harga_jual', 'tanggal' ];
-
+        $title = 'Sparepart';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'title' => $title
             ]);
         }
+        $active = 'active';
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','title','active'));
     }
 
     public function store(Request $request)
@@ -73,7 +75,7 @@ class JobSparepartController extends Controller
         //create service
         $jobspareparts = JobSparepart::create($request->all());
 
-        $query = JobService::latest()->get();
+        $query = JobSparepart::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);
@@ -134,7 +136,7 @@ class JobSparepartController extends Controller
         //create post
         $jobsparepart->update($request->all());
 
-        $query = JobService::latest()->get();
+        $query = JobSparepart::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_awal = $this->formatRupiah($item->harga_awal);

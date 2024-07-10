@@ -110,7 +110,7 @@
                                                 </div>
                                             </h5>
                                         </div>
-                                        @if(auth()->user()->isOwner() || auth()->user()->isOwner())
+                                        @if(auth()->user()->isInvestor() || auth()->user()->isOwner())
                                         <div class="col-2">
                                             <form id="pdfForm" action="{{ route('reportFinancial') }}" method="GET" target="_blank">
                                                 <input type="hidden" name="jenisLaporan" id="jenisLaporanInput" value="{{ $jenisLaporan }}">

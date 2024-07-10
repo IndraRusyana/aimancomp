@@ -18,6 +18,7 @@ class PengeluaranController extends Controller
     public function index(request $request){
         $query = Pengeluaran::latest()->paginate(10);
         $columnsSubset = ['nama_pengeluaran','nominal','catatan','tanggal'];
+        $title = 'Pengeluaran';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
@@ -28,7 +29,7 @@ class PengeluaranController extends Controller
             $item->nominal = $this->formatRupiah($item->nominal);
             return $item;
         });
-        return view('admin.pengeluaran', compact('query','columnsSubset'));
+        return view('admin.pengeluaran', compact('query','columnsSubset','title'));
     }
 
     public function store(request $request){

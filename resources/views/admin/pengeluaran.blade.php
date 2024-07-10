@@ -34,14 +34,19 @@
                             <div class="col mb-3">
                                 <div class="card">
                                     <div class="row">
-                                        <div class="col-10">
+                                        <div class="col-6">
                                             <h5 class="card-header">
                                                 List Pengeluaran
                                             </h5>
                                         </div>
-                                        <div class="col-2 d-flex justify-content-center align-items-center">
+                                        <div class="col-6 d-flex justify-content-end align-items-center">
                                             <a id="addDataOutcomeButton" href="#"
-                                                class="btn btn-outline-secondary">Tambah Data</a>
+                                                class="btn btn-outline-secondary me-2">Tambah Data
+                                            </a>
+                                            <form id="pdfForm" action="{{ route('reportJob') }}" method="GET" target="_blank">
+                                                <input type="hidden" name="job" id="jobInput" value="{{$title}}">
+                                                <button type="submit" class="btn btn-outline-secondary me-2">Cetak Laporan</button>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="card-body">

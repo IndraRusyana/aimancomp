@@ -21,7 +21,7 @@ class JobMinumanController extends Controller
     public function index(Request $request)
     {
         //get all jobdrinks from Models
-        $query = JobDrink::latest()->get();
+        $query = JobDrink::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);
@@ -31,16 +31,17 @@ class JobMinumanController extends Controller
         // $columns = \Schema::getColumnListing('jobdrinks');
         // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['nama', 'modal', 'harga_jual', 'tanggal'];
-
+        $title = 'Minuman';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'title' => $title,
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','title'));
     }
 
     public function store(Request $request)
@@ -68,7 +69,7 @@ class JobMinumanController extends Controller
         //create service
         $jobdrinks = JobDrink::create($request->all());
 
-        $query = JobDrink::latest()->get();
+        $query = JobDrink::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);
@@ -128,7 +129,7 @@ class JobMinumanController extends Controller
         //create post
         $jobdrink->update($request->all());
 
-        $query = JobDrink::latest()->get();
+        $query = JobDrink::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga_jual = $this->formatRupiah($item->harga_jual);

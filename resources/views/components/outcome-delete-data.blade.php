@@ -35,11 +35,12 @@
                             icon: 'success',
                             title: `${response.message}`,
                             showConfirmButton: false,
-                            timer: 3000
+                            timer: 1500
                         });
 
-                        //remove post on table
-                        $(`#outcome_${id}`).remove();
+                        setTimeout(function() {
+                            location.reload();
+                        }, 500); // Wait for 3000 milliseconds (3 seconds)
                     }
                 });
 

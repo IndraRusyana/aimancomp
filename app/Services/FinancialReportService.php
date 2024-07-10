@@ -132,8 +132,7 @@ class FinancialReportService
                                              self::hitungPersentase($result['totalKeuntunganJobProgram'], 20) +
                                              self::hitungPersentase($result['totalKeuntunganJobJoki'], 40) +
                                              self::hitungPersentase($result['totalKeuntunganJobTopup'], 100) +
-                                             self::hitungPersentase($result['totalKeuntunganJobDrink'], 100) -
-                                             $result['totalNominal'];
+                                             self::hitungPersentase($result['totalKeuntunganJobDrink'], 100);
         $result['keuntunganInvestor1'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 50);
         $result['keuntunganInvestor2'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 2);
         $result['keuntunganOwner'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 48) +

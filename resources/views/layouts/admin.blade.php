@@ -20,8 +20,8 @@
     <!-- Icons. Uncomment required icon fonts -->
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" /> --}}
     {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
-    {{-- <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"> --}}
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -122,100 +122,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
-
-    <script>
-        $('#dataType li a').on('click', function (event) {
-            event.preventDefault();
-
-            $('#dataType li a').removeClass('active');
-            $(this).addClass('active');
-
-            let dataValue = $(this).parent().attr('data-value');
-            let dataType = JSON.parse(dataValue);
-            
-            let url = '/admin/' + dataType.path + '/' + dataType.menu;
-
-            function capitalizeFirstWord(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
-            let capitalizedTitle = capitalizeFirstWord(dataType.menu);
-            $('#tableTitle').html(' ' + capitalizedTitle);
-
-            $.ajax({
-                url: url,
-                type: "Get",
-                success: function(response) {
-
-                    let columns = response.columnsSubset;
-                    let data = response.query;
-
-                    // Create table head
-                    let head = '<tr id="tableHead">';
-                    columns.forEach(column => {
-                        head += '<th>' + column + '</th>';
-                    });
-                    @if(auth()->check())
-                        @if(auth()->user()->isOwner())
-                        head += '<th>Actions</th></tr>';
-                    @endif
-                    @endif
-                    $('#tableHead').html(head);
-
-                    // Create table body
-                    let body = '';
-                    data.forEach(item => {
-                        body += '<tr id="index_' + item.id + '" data-id="' + item.id + '">';
-                        columns.forEach(column => {
-                            if (column.toLowerCase() === 'status') {
-                                let statusClass = '';
-                                if (item[column] === 'selesai') {
-                                    statusClass = 'badge bg-label-success';
-                                } else if (item[column] === 'proses') {
-                                    statusClass = 'badge bg-label-warning';
-                                } else if (item[column] === 'pending') {
-                                    statusClass = 'badge bg-label-danger';
-                                }
-                                body += `
-                                    <td>
-                                        <span class="${statusClass}">${item[column]}</span>
-                                    </td>`;
-                            } else {
-                                body += '<td>' + item[column] + '</td>';
-                            }
-                        });
-                        body += `
-                        @if(auth()->check())
-                        @if(auth()->user()->isOwner())
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-button" href="javascript:void(0);" data-id="${item.id}">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                            @endif
-                        @endif
-                        </tr>`;
-                    });
-                    $('#tableBody').html(body);
-                },
-                error: function(error) {
-                    console.error('Terjadi kesalahan:', error);
-                }
-            })
-            
-        })
-
-    </script>
 
     {{-- Javascript from template --}}
     <!-- Core JS -->

@@ -21,7 +21,7 @@ class JobJokiController extends Controller
     public function index(Request $request)
     {
         //get all jobjokis from Models
-        $query = JobJoki::latest()->get();
+        $query = JobJoki::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
@@ -30,16 +30,17 @@ class JobJokiController extends Controller
         // $columns = \Schema::getColumnListing('jobjokis');
         // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['nama_tugas', 'client', 'deskripsi', 'estimasi_pengerjaan', 'status', 'harga', 'tanggal'];
-
+        $title = 'Joki';
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
+                'title' => $title
             ]);
         }
 
         //return view with data
-        return view('admin.pekerjaan', compact('query','columnsSubset'));
+        return view('admin.pekerjaan', compact('query','columnsSubset','title'));
     }
 
     public function store(Request $request)
@@ -75,7 +76,7 @@ class JobJokiController extends Controller
         //create service
         $jobjokis = JobJoki::create($request->all());
 
-        $query = JobJoki::latest()->get();
+        $query = JobJoki::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
@@ -139,7 +140,7 @@ class JobJokiController extends Controller
         //create post
         $jobjoki->update($request->all());
 
-        $query = JobJoki::latest()->get();
+        $query = JobJoki::latest()->paginate(10);
         // Format harga menjadi rupiah
         $query->transform(function($item) {
             $item->harga = $this->formatRupiah($item->harga);
