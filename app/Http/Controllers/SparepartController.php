@@ -17,21 +17,14 @@ class SparepartController extends Controller
     {
         //get all spareparts from Models
         $query = Sparepart::latest()->get();
-        // $columns = \Schema::getColumnListing('spareparts');
-        // $columnsSubset = [
-        //     $columns[1], 
-        //     $columns[2], 
-        //     $columns[3],
-        //     $columns[4],
-        //     $columns[5],
-        //     $columns[6],
-        // ];
         $columnsSubset = ['name', 'price', 'description', 'image', 'stock', 'quality'];  
-
-        return response()->json([
-            'query' => $query,
-            'columnsSubset' => $columnsSubset,
-        ]);
+        if ($request->ajax()) {
+            return response()->json([
+                'query' => $query,
+                'columnsSubset' => $columnsSubset,
+            ]);
+        }
+        return view('admin.layanan', compact('query','columnsSubset'));
     }
 
     public function store(Request $request)

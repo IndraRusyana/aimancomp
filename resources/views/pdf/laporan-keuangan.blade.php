@@ -88,15 +88,21 @@
             <h2>Dana Pengembangan dan Bagi Hasil</h2>
             <p>Dana Pengembangan: Rp {{ number_format($danaPengembangan, 0, ',', '.') }}</p>
             <p>Dana Bagi Hasil: Rp {{ number_format($danaBagiHasil, 0, ',', '.') }}</p>
-            <p>Total Pengeluaran: Rp {{ number_format($totalNominal, 0, ',', '.') }}</p>
-            <p>Total Keuntungan Investor: Rp {{ number_format($totalKeuntunganInvestor, 0, ',', '.') }}</p>
+            <p>Total Pengeluaran: Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
         </div>
 
         <div class="section">
             <h2>Keuntungan Investor dan Owner</h2>
-            <p>Keuntungan Investor 1: Rp {{ number_format($keuntunganInvestor1, 0, ',', '.') }}</p>
-            <p>Keuntungan Investor 2: Rp {{ number_format($keuntunganInvestor2, 0, ',', '.') }}</p>
-            <p>Keuntungan Owner: Rp {{ number_format($keuntunganOwner, 0, ',', '.') }}</p>
+            <p>Keuntungan Investor 1: Rp {{ number_format($keuntunganBersihInvestor1, 0, ',', '.') }}</p>
+            <p>Keuntungan Investor 2: Rp {{ number_format($keuntunganBersihInvestor2, 0, ',', '.') }}</p>
+            <p>Keuntungan Owner: Rp {{ number_format($keuntunganBersihOwner, 0, ',', '.') }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Pengeluaran Investor dan Owner</h2>
+            <p>Pengeluaran Investor 1: Rp {{ number_format($pengeluaranInvestor1, 0, ',', '.') }}</p>
+            <p>Pengeluaran Investor 2: Rp {{ number_format($pengeluaranInvestor2, 0, ',', '.') }}</p>
+            <p>Pengeluaran Owner: Rp {{ number_format($pengeluaranOwner, 0, ',', '.') }}</p>
         </div>
     </div>
 </body>

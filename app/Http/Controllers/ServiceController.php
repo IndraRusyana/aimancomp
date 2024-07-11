@@ -17,8 +17,6 @@ class ServiceController extends Controller
     {
         //get all services from Models
         $query = Service::latest()->get();
-        // $columns = \Schema::getColumnListing('services');
-        // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['name', 'price', 'description'];
 
         if ($request->ajax()) {
@@ -27,7 +25,7 @@ class ServiceController extends Controller
                 'columnsSubset' => $columnsSubset,
             ]);
         }
-
+        
         //return view with data
         return view('admin.layanan', compact('query','columnsSubset'));
     }

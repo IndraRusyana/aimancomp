@@ -34,19 +34,17 @@
                             <h6 class="card-header">
                                 <ul id="dataType" class="nav nav-pills mb-3" role="tablist">
                                     <li class="nav-item" data-value='{"path":"keanggotaan","menu":"admins"}'>
-                                        <a class="nav-link active"  href="#" 
-                                            aria-selected="true">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admins.index' ? 'active' : '' }}"  href="{{route('admins.index')}}">
                                             Admin
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"keanggotaan","menu":"investors"}'>
-                                        <a class="nav-link"  href="#"
-                                            aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'investors.index' ? 'active' : '' }}"  href="{{route('investors.index')}}">
                                             Investor
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"keanggotaan","menu":"owners"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'owners.index' ? 'active' : '' }}" href="{{route('owners.index')}}">
                                             Owner
                                         </a>
                                     </li>

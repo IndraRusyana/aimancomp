@@ -17,17 +17,13 @@ class ProgramController extends Controller
     {
         //get all programs from Models
         $query = Program::latest()->get();
-        // $columns = \Schema::getColumnListing('programs');
-        // $columnsSubset = [$columns[1], $columns[2], $columns[3]];
         $columnsSubset = ['name', 'price', 'description'];
-
         if ($request->ajax()) {
             return response()->json([
                 'query' => $query,
                 'columnsSubset' => $columnsSubset,
             ]);
         }
-
         //return view with data
         return view('admin.layanan', compact('query','columnsSubset'));
     }

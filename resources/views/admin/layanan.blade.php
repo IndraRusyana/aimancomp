@@ -36,32 +36,32 @@
                             <h6 class="card-header">
                                 <ul id="dataType" class="nav nav-pills mb-3" role="tablist">
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"services"}'>
-                                        <a class="nav-link active" href="#" aria-selected="true">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'services.index' ? 'active' : '' }}" href="{{route('services.index')}}">
                                             Service
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"spareparts"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'spareparts.index' ? 'active' : '' }}" href="{{route('spareparts.index')}}">
                                             Penjualan Sparepart
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"programs"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'programs.index' ? 'active' : '' }}" href="{{route('programs.index')}}">
                                             Pembuatan aplikasi & web
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"jokis"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'jokis.index' ? 'active' : '' }}" href="{{route('jokis.index')}}">
                                             Joki tugas, skripsi dan jurnal
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"topups"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'topups.index' ? 'active' : '' }}" href="{{route('topups.index')}}">
                                             Topup e-wallet & voucher kuota
                                         </a>
                                     </li>
                                     <li class="nav-item" data-value='{"path":"layanan","menu":"minumans"}'>
-                                        <a class="nav-link" href="#" aria-selected="false">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'minumans.index' ? 'active' : '' }}" href="{{route('minumans.index')}}">
                                             Kopi & minuman
                                         </a>
                                     </li>

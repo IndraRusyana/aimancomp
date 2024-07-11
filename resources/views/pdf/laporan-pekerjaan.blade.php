@@ -42,9 +42,9 @@
             <h2>Periode Laporan: Semua Waktu</h2>
         </div>
 
-        <div class="table-responsive text-nowrap" id="table-content">
-            <table class="table table-striped" id="dataTable">
-                <thead id="tableHead">
+        <div class="section" >
+            <table>
+                <thead>
                     <tr>
                         <th>No</th>
                         @foreach ($columnsSubset as $column)
@@ -52,15 +52,20 @@
                         @endforeach
                     </tr>
                 </thead>
-                <tbody class="table-border-bottom-0" id="tableBody">
+                <tbody>
                     @php
                         $no = 1;
                     @endphp
                     @foreach ($query as $item)
-                        <tr id="index_{{ $item->id }}" data-id="{{ $item->id }}">
+                        <tr>
                             <td>{{ $no }}</td>
                             @foreach ($columnsSubset as $column)
-                                <td>{{ $item->$column }}</td>
+                                @if ($column === 'harga' || $column === 'nominal' || $column === 'modal' || $column === 'harga_awal' || $column === 'harga_jual')
+                                    <td>@formatRupiah($item->$column)</td>
+                                @else {
+                                    <td>{{ $item->$column }}</td>
+                                }
+                                @endif
                             @endforeach
                         </tr>
                     @php
@@ -71,8 +76,6 @@
             </table>
         </div>
         <p>Total : @formatRupiah($total)</p>
-
-       
     </div>
 </body>
 </html>
