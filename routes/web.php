@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::fallback(function () {
-    return redirect('/store');
-});
+// Route::fallback(function () {
+//     return redirect('/store');
+// });
 
 Route::get('/admin', function () {
     return redirect('/admin/home');
@@ -43,6 +43,8 @@ Route::group(['middleware' => ['role:admin,owner,investor']], function () {
     Route::resource('/admin/keanggotaan/admins', App\Http\Controllers\AdminController::class);
     Route::resource('/admin/keanggotaan/investors', App\Http\Controllers\InvestorController::class);
     Route::resource('/admin/keanggotaan/owners', App\Http\Controllers\OwnerController::class);
+    Route::get('/admin/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/admin/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::group(['middleware' => ['role:admin,owner']], function () {
@@ -74,11 +76,5 @@ Route::get('/store', [StoreController::class, 'showWebStore']);
 // })
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__ . '/auth.php';

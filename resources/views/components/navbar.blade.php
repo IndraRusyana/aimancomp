@@ -23,7 +23,7 @@
             <!-- Place this tag where you want the button to render. -->
             <li class="nav-item lh-1 me-3">
                 <a class="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    href=""
                     data-icon="octicon-star" data-size="large" data-show-count="true"
                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">{{ Auth::user()->name }}</a>
             </li>
@@ -58,19 +58,10 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{route('profile.index')}}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <div class="dropdown-divider"></div>
                     </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
