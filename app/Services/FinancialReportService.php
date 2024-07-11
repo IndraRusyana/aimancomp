@@ -149,7 +149,7 @@ class FinancialReportService
         // menghitung keuntungan bersih investor dan owner
         $result['keuntunganBersihInvestor1'] = $result['danaBagiHasil'] * $result['kontribusiInvestor1'] - $result['pengeluaranInvestor1'];
         $result['keuntunganBersihInvestor2'] = $result['danaBagiHasil'] * $result['kontribusiInvestor2'] - $result['pengeluaranInvestor2'];
-        $result['keuntunganBersihOwner'] = $result['danaBagiHasil'] - ($result['pengeluaranInvestor1'] + $result['pengeluaranInvestor2']);
+        $result['keuntunganBersihOwner'] = $result['danaBagiHasil'] - ($result['keuntunganBersihInvestor1'] + $result['keuntunganBersihInvestor2']);
 
         // Hitung persentase untuk masing-masing jenis
         $result['prsntService'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40);
