@@ -447,7 +447,7 @@
                                                     </div>
                                                 </div>
                                                 <span class="fw-semibold d-block mb-1">Total Pengeluaran</span>
-                                                <h3 class="card-title mb-2">@formatRupiah($totalNominal)</h3>
+                                                <h3 class="card-title mb-2">@formatRupiah($totalPengeluaran)</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -472,7 +472,7 @@
                                                         <small class="text-muted">50%</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor1)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihInvestor1)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -487,7 +487,7 @@
                                                         <small class="text-muted">2%</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor2)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihInvestor2)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -495,15 +495,42 @@
                                     </div>
                                 </div>
                                 <div class="card mt-4">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title m-0 me-2">Pengeluaran Per Investor</h5>
+                                    </div>
                                     <div class="card-body">
-                                        <div class="card-title d-flex align-items-start justify-content-between">
-                                            <div class="avatar flex-shrink-0">
-                                                <img src="../assets/img/icons/unicons/cc-warning.png"
-                                                    alt="chart warning" class="rounded" />
-                                            </div>
-                                        </div>
-                                        <span class="fw-semibold d-block mb-1">Total keuntungan Investor</span>
-                                        <h3 class="card-title mb-2">@formatRupiah($totalKeuntunganInvestor)</h3>
+                                        <ul class="p-0 m-0">
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Investor 1</h6>
+                                                        <small class="text-muted">50%</small>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($pengeluaranInvestor1)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Investor 2</h6>
+                                                        <small class="text-muted">2%</small>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($pengeluaranInvestor2)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -512,14 +539,36 @@
                             <div class="col-md-6 col-lg-4 order-2 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="card-title d-flex align-items-start justify-content-between">
-                                            <div class="avatar flex-shrink-0">
-                                                <img src="../assets/img/icons/unicons/chart-success.png"
-                                                    alt="chart success" class="rounded" />
-                                            </div>
-                                        </div>
-                                        <span class="fw-semibold d-block mb-1">Keuntungan owner</span>
-                                        <h3 class="card-title mb-2">@formatRupiah($keuntunganOwner)</h3>
+                                        <ul class="p-0 m-0">
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Keuntungan Bersih Owner</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihOwner)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Pengeluaran Owner</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($pengeluaranOwner)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-    <link rel="icon" type="image/x-icon" href="..\assets\img\icons\brands\aiman.png" />
+    <link rel="icon" type="image/x-icon" href="{{asset('assets\img\icons\brands\aiman.png')}}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,11 +15,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
-
-    <!-- CSS style from template -->
-    <!-- Icons. Uncomment required icon fonts -->
-    {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" /> --}}
-    {{-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> --}}
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
@@ -54,45 +49,6 @@
 
 <body>
     @yield('content')
-
-    <!-- Notification Modal -->
-    {{-- <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="notificationModalLabel">Notification</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="notificationMessage">
-                    <!-- Notification message will be displayed here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <!-- Delete Confirmation Modal -->
-    {{-- <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Konfirmasi Penghapusan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Apakah Anda yakin ingin menghapus data ini?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle" style="z-index:996"></div>

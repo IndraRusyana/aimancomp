@@ -84,7 +84,7 @@ class FinancialReportService
         $result['totalKeuntunganJobJoki'] = self::calculateTotalKeuntungan($dataJobJoki, 'harga');
         $result['totalKeuntunganJobTopup'] = self::calculateTotalKeuntungan($dataJobTopup, 'harga_jual', 'modal');
         $result['totalKeuntunganJobDrink'] = self::calculateTotalKeuntungan($dataJobDrink, 'harga_jual', 'modal');
-        $result['totalNominal'] = self::calculateTotalKeuntungan($dataPengeluaran, 'nominal');
+        $result['totalPengeluaran'] = self::calculateTotalKeuntungan($dataPengeluaran, 'nominal');
 
         // menghitung harga jual dan harga awal / modal
         $totalHargaJobSparepart = 0; 
@@ -127,16 +127,29 @@ class FinancialReportService
         // Hitung dana pengembangan, bagi hasil, dan keuntungan investor/owner
         $result['danaPengembangan'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 20);
         $result['danaBagiHasil'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 80);
-        $result['totalKeuntunganInvestor'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40) +
+
+        // hitung total keuntuangan per layanana
+        $result['totalKeuntunganPerLayanan'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40) +
                                              self::hitungPersentase($result['totalKeuntunganJobSparepart'], 100) +
                                              self::hitungPersentase($result['totalKeuntunganJobProgram'], 20) +
                                              self::hitungPersentase($result['totalKeuntunganJobJoki'], 40) +
                                              self::hitungPersentase($result['totalKeuntunganJobTopup'], 100) +
                                              self::hitungPersentase($result['totalKeuntunganJobDrink'], 100);
-        $result['keuntunganInvestor1'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 50);
-        $result['keuntunganInvestor2'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 2);
-        $result['keuntunganOwner'] = self::hitungPersentase($result['totalKeuntunganInvestor'], 48) +
-                                     ($result['danaBagiHasil'] - $result['totalKeuntunganInvestor']);
+
+        // pengeluaran investor
+        $result['kontribusiInvestor1'] = self::hitungKontribusiInvestor($result['totalKeuntunganPerLayanan'],$result['totalSeluruhKeuntungan'],50);
+        $result['kontribusiInvestor2'] = self::hitungKontribusiInvestor($result['totalKeuntunganPerLayanan'],$result['totalSeluruhKeuntungan'],2);
+
+        $result['pengeluaranInvestor1'] = $result['totalPengeluaran'] * $result['kontribusiInvestor1'];
+        $result['pengeluaranInvestor2'] = $result['totalPengeluaran'] * $result['kontribusiInvestor2'];
+
+        // pengeluaran owner
+        $result['pengeluaranOwner'] = $result['totalPengeluaran'] - $result['pengeluaranInvestor1'] - $result['pengeluaranInvestor2'];
+
+        // menghitung keuntungan bersih investor dan owner
+        $result['keuntunganBersihInvestor1'] = $result['danaBagiHasil'] * $result['kontribusiInvestor1'] - $result['pengeluaranInvestor1'];
+        $result['keuntunganBersihInvestor2'] = $result['danaBagiHasil'] * $result['kontribusiInvestor2'] - $result['pengeluaranInvestor2'];
+        $result['keuntunganBersihOwner'] = $result['danaBagiHasil'] - ($result['pengeluaranInvestor1'] + $result['pengeluaranInvestor2']);
 
         // Hitung persentase untuk masing-masing jenis
         $result['prsntService'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40);
@@ -170,5 +183,13 @@ class FinancialReportService
     private static function hitungPersentase($nilai, $persen)
     {
         return $nilai * ($persen / 100);
+    }
+
+    // Method untuk menghitung persentase kontribusi investor
+    private static function hitungKontribusiInvestor( $totalKeuntunganPerLayanan, $totalSeluruhKeuntungan, $persen)
+    {
+        $persen = ($persen / 100);
+        $kontribusiInvestor = $totalKeuntunganPerLayanan / $totalSeluruhKeuntungan * $persen;
+        return $kontribusiInvestor;
     }
 }

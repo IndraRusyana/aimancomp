@@ -130,6 +130,7 @@ class JobServiceController extends Controller
                 Rule::in(['pending', 'proses', 'selesai']), // Example statuses
             ],
             'harga' => 'required|numeric|min:0',
+            'tanggal' => 'required|date_format:Y-m-d',
         ]);
 
         //check if validation fails

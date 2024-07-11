@@ -127,7 +127,7 @@ class JobTopupController extends Controller
                 'string',
                 Rule::in(['pending', 'proses', 'selesai']), // Example statuses
             ],
-            'tanggal' => 'required|date_format:Y-m-d H:i:s',
+            'tanggal' => 'required|date_format:Y-m-d',
         ]);
 
         //check if validation fails

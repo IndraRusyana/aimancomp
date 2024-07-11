@@ -23,10 +23,12 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/admin/login', [AuthController::class, 'loginPost'])->name('loginAdmin');
 });
 
-Route::group(['middleware' => ['role:admin,owner']], function () {
+Route::group(['middleware' => ['role:admin,owner,investor']], function () {
     Route::get('/admin/home', [HomeController::class, 'index'])->name('dashboardAdmin');
     Route::delete('/admin/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
+Route::group(['middleware' => ['role:admin,owner']], function () {
     //-- Route for crud layanan --//
     Route::resource('/admin/layanan/services', App\Http\Controllers\ServiceController::class);
     Route::resource('/admin/layanan/spareparts', App\Http\Controllers\SparepartController::class);
@@ -34,12 +36,16 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
     Route::resource('/admin/layanan/jokis', App\Http\Controllers\JokiController::class);
     Route::resource('/admin/layanan/topups', App\Http\Controllers\TopupController::class);
     Route::resource('/admin/layanan/minumans', App\Http\Controllers\MinumanController::class);
+});
 
+Route::group(['middleware' => ['role:admin,owner,investor']], function () {
     //-- Route for crud keanggotaan --//
     Route::resource('/admin/keanggotaan/admins', App\Http\Controllers\AdminController::class);
     Route::resource('/admin/keanggotaan/investors', App\Http\Controllers\InvestorController::class);
     Route::resource('/admin/keanggotaan/owners', App\Http\Controllers\OwnerController::class);
+});
 
+Route::group(['middleware' => ['role:admin,owner']], function () {
     //-- Route for crud pekerjaan --//
     Route::resource('/admin/pekerjaan/jobservices', App\Http\Controllers\JobServiceController::class);
     Route::resource('/admin/pekerjaan/jobspareparts', App\Http\Controllers\JobSparepartController::class);
@@ -47,7 +53,9 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
     Route::resource('/admin/pekerjaan/jobjokis', App\Http\Controllers\JobJokiController::class);
     Route::resource('/admin/pekerjaan/jobtopups', App\Http\Controllers\JobTopupController::class);
     Route::resource('/admin/pekerjaan/jobminumans', App\Http\Controllers\JobMinumanController::class);
+});
 
+Route::group(['middleware' => ['role:admin,owner,investor']], function () {
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('laporanIndex');
     Route::resource('/admin/pengeluaran', App\Http\Controllers\PengeluaranController::class);
     Route::resource('/admin/store', App\Http\Controllers\StoreController::class);
@@ -55,9 +63,6 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
 
 Route::group(['middleware' => ['role:investor,owner']], function () {
     //-- Route for crud keanggotaan --//
-    Route::resource('/admin/keanggotaan/admins', App\Http\Controllers\AdminController::class);
-    Route::resource('/admin/keanggotaan/investors', App\Http\Controllers\InvestorController::class);
-    Route::resource('/admin/keanggotaan/owners', App\Http\Controllers\OwnerController::class);
     Route::get('/generate-pdf', [PdfController::class, 'generateFinancialReport'])->name('reportFinancial');
     Route::get('/generate-job-pdf', [PdfController::class, 'generateJobReport'])->name('reportJob');
 });
