@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 //     return redirect('/store');
 // });
 
-Route::get('/admin', function () {
-    return redirect('/admin/home');
+Route::get('/', function () {
+    return redirect('/store');
 });
 
 /* This block of code defines a group of routes that are accessible only to guests, meaning users who
