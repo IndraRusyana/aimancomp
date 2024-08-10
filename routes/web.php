@@ -55,6 +55,7 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
     Route::resource('/admin/pekerjaan/jobjokis', App\Http\Controllers\JobJokiController::class);
     Route::resource('/admin/pekerjaan/jobtopups', App\Http\Controllers\JobTopupController::class);
     Route::resource('/admin/pekerjaan/jobminumans', App\Http\Controllers\JobMinumanController::class);
+    Route::resource('/admin/pekerjaan/komisis', App\Http\Controllers\KomisiController::class);
 });
 
 Route::group(['middleware' => ['role:admin,owner,investor']], function () {
@@ -64,7 +65,6 @@ Route::group(['middleware' => ['role:admin,owner,investor']], function () {
 });
 
 Route::group(['middleware' => ['role:investor,owner']], function () {
-    //-- Route for crud keanggotaan --//
     Route::get('/generate-pdf', [PdfController::class, 'generateFinancialReport'])->name('reportFinancial');
     Route::get('/generate-job-pdf', [PdfController::class, 'generateJobReport'])->name('reportJob');
 });

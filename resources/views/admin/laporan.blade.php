@@ -125,11 +125,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <!-- Total keuntungan -->
+                            <!-- Total keuntungan laba kotor -->
                             <div class="col-md-6 col-lg-4 order-2 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header d-flex align-items-center justify-content-between">
-                                        <h5 class="card-title m-0 me-2">Total keuntungan</h5>
+                                        <h5 class="card-title m-0 me-2">Total laba kotor per layanan</h5>
                                     </div>
                                     <div class="card-body">
                                         <ul class="p-0 m-0">
@@ -208,7 +208,7 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="d-flex">
+                                            <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-warning.png" alt="User"
                                                         class="rounded" />
@@ -223,6 +223,21 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <li class="d-flex">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Komisi</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($totalKomisi)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -231,7 +246,7 @@
                             <div class="col-md-6 col-lg-4 order-2 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header d-flex align-items-center justify-content-between">
-                                        <h5 class="card-title m-0 me-2">Total pemasukan</h5>
+                                        <h5 class="card-title m-0 me-2">Total pemasukan per layanan</h5>
                                     </div>
                                     <div class="card-body">
                                         <ul class="p-0 m-0">
@@ -311,7 +326,7 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="d-flex">
+                                            <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-warning.png" alt="User"
                                                         class="rounded" />
@@ -323,6 +338,21 @@
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
                                                         <h6 class="mb-0">@formatRupiah($totalHargaJobDrink)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex   ">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Komisi</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($totalKomisi)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -401,7 +431,7 @@
                                                             alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">Total seluruh keuntungan</span>
+                                                <span class="fw-semibold d-block mb-1">Total laba kotor</span>
                                                 <h3 class="card-title mb-2">@formatRupiah($totalSeluruhKeuntungan)</h3>
                                             </div>
                                         </div>
@@ -416,8 +446,8 @@
                                                             alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">Dana pengembangan</span>
-                                                <h3 class="card-title mb-2">@formatRupiah($danaPengembangan)</h3>
+                                                <span class="fw-semibold d-block mb-1">Total Pengeluaran</span>
+                                                <h3 class="card-title mb-2">@formatRupiah($totalPengeluaran)</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -431,8 +461,8 @@
                                                             alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">Dana bagi hasil</span>
-                                                <h3 class="card-title mb-2">@formatRupiah($danaBagiHasil)</h3>
+                                                <span class="fw-semibold d-block mb-1">Dana pengembangan</span>
+                                                <h3 class="card-title mb-2">@formatRupiah($danaPengembangan)</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -446,13 +476,252 @@
                                                             alt="chart success" class="rounded" />
                                                     </div>
                                                 </div>
-                                                <span class="fw-semibold d-block mb-1">Total Pengeluaran</span>
-                                                <h3 class="card-title mb-2">@formatRupiah($totalPengeluaran)</h3>
+                                                <span class="fw-semibold d-block mb-1">Dana bagi hasil</span>
+                                                <h3 class="card-title mb-2">@formatRupiah($danaBagiHasil)</h3>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{-- laba kotor setelah dikurangi pengeluaran --}}
+                            <div class="col-md-6 col-lg-4 order-1 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title m-0 me-2">Laba kotor setelah dikurangi pengeluaran</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="p-0 m-0">
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Service</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobServiceDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Sparepart</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobSparepartDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/chart.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Aplikasi / Web</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobProgramDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Joki</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobJokiDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Topup</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobTopupDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-warning.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Minuman</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobDrinkDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Komisi</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($totalKomisiDikurangiPengeluaran)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {{-- laba kotor setelah dikurangi dana pengembangan 1% --}}
+                            <div class="col-md-6 col-lg-4 order-2 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title m-0 me-2">Laba kotor setelah dikurangi dana pengembangan 1%</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="p-0 m-0">
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Service</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobServiceDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Sparepart</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobSparepartDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/chart.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Aplikasi / Web</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobProgramDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Joki</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobJokiDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Topup</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobTopupDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-4 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-warning.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Minuman</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($jobDrinkDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
+                                                        class="rounded" />
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Komisi</h6>
+                                                    </div>
+                                                    <div class="user-progress d-flex align-items-center gap-1">
+                                                        <h6 class="mb-0">@formatRupiah($komisiDikurangiPengembangan)</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
                             {{-- keuntungan per investor --}}
                             <div class="col-md-6 col-lg-4 order-1 mb-4">
                                 <div class="card">
@@ -472,7 +741,7 @@
                                                         <small class="text-muted">50%</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihInvestor1)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor1)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -487,46 +756,7 @@
                                                         <small class="text-muted">2%</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihInvestor2)</h6>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card mt-4">
-                                    <div class="card-header d-flex align-items-center justify-content-between">
-                                        <h5 class="card-title m-0 me-2">Pengeluaran Per Investor</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="p-0 m-0">
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <h6 class="mb-0">Investor 1</h6>
-                                                        <small class="text-muted">50%</small>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($pengeluaranInvestor1)</h6>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <h6 class="mb-0">Investor 2</h6>
-                                                        <small class="text-muted">2%</small>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($pengeluaranInvestor2)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor2)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -538,6 +768,9 @@
                             {{-- keuntungan owner --}}
                             <div class="col-md-6 col-lg-4 order-2 mb-4">
                                 <div class="card">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title m-0 me-2">Keuntungan Owner</h5>
+                                    </div>
                                     <div class="card-body">
                                         <ul class="p-0 m-0">
                                             <li class="d-flex mb-4 pb-1">
@@ -547,10 +780,10 @@
                                                 </div>
                                                 <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Keuntungan Bersih Owner</h6>
+                                                        <h6 class="mb-0">Keuntungan Owner dari layanan</h6>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($keuntunganBersihOwner)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($KeuntunganOwnerDariLayanan)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -561,10 +794,10 @@
                                                 </div>
                                                 <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Pengeluaran Owner</h6>
+                                                        <h6 class="mb-0">Keuntungan Owner dari investasi</h6>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">@formatRupiah($pengeluaranOwner)</h6>
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganOwnerDariInvestasi)</h6>
                                                     </div>
                                                 </div>
                                             </li>
@@ -574,6 +807,7 @@
                             </div>
 
                         </div>
+
                     </div>
                     <!-- / Content -->
 

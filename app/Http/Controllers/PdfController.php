@@ -10,6 +10,7 @@ use App\Models\JobJoki;
 use App\Models\JobTopup;
 use App\Models\JobDrink;
 use App\Models\Pengeluaran;
+use App\Models\Komisi;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -46,7 +47,7 @@ class PdfController extends Controller
         $dompdf->loadHtml($view->render());
 
         // Setting ukuran dan orientasi halaman
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
 
         // Render PDF (output)
         $dompdf->render();
@@ -98,6 +99,11 @@ class PdfController extends Controller
             $query = Pengeluaran::all();
             $columnsSubset = ['nama_pengeluaran','nominal','tanggal'];
             $total = Pengeluaran::sum('nominal');
+        }
+        if($job === "Komisi"){
+            $query = Komisi::all();
+            $columnsSubset = ['nama_pemasukan','nominal','tanggal'];
+            $total = Komisi::sum('nominal');
         }
 
 

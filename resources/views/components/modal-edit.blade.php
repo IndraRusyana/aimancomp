@@ -29,16 +29,18 @@
         let dataResult = activeType.parent().attr('data-value');
         let dataType = JSON.parse(dataResult);
         url = '/admin/' + dataType.path + '/' + dataType.menu + '/' + id;
-
+        // console.log(url);
         //fetch detail post with ajax
         $.ajax({
             url: url,
             type: "GET",
             cache: false,
             success: function(response) {
-                console.log('ok');
+                // console.log('ok');
                 let data = response.data;
                 let thead = response.thead;
+                // console.log(data);
+                // console.log(thead);
 
                 $('#editDataForm').attr('data-id', id);
                 $('#editDataForm').attr('data-type', dataType.type);

@@ -43,66 +43,48 @@
         </div>
 
         <div class="section">
-            <h2>Total Keuntungan</h2>
+            <h2>Tabel laporan keuntungan per layanan</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Jenis Layanan</th>
-                        <th>Keuntungan</th>
+                        <th>Keuntungan kotor</th>
+                        <th>Modal awal</th>
+                        <th>Keuntungan setelah dikurang modal</th>
+                        <th>Keuntungan setelah dikurang pengeluaran</th>
+                        <th>Keuntungan setelah dikurang pengembangan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Job Service</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobService, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Job Sparepart</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobSparepart, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Job Program</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobProgram, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Job Joki</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobJoki, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Job Topup</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobTopup, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Job Drink</td>
-                        <td>Rp {{ number_format($totalKeuntunganJobDrink, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total</th>
-                        <td>Rp {{ number_format($totalSeluruhKeuntungan, 0, ',', '.') }}</td>
-                    </tr>
+                    <?php
+                        foreach ($dataLaporan as $index => $data) {
+                            echo "<tr>";
+                            echo "<th>" . $data[0] . "</th>";
+                            echo "<td>Rp. " . number_format($data[1], 0, ',', '.') . "</td>";
+                            echo "<td>Rp. " . number_format($data[2], 0, ',', '.') . "</td>";
+                            echo "<td>Rp. " . number_format($data[3], 0, ',', '.') . "</td>";
+                            echo "<td>Rp. " . number_format($data[4], 0, ',', '.') . "</td>";
+                            echo "<td>Rp. " . number_format($data[5], 0, ',', '.') . "</td>";
+                            echo "</tr>";
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
             <h2>Dana Pengembangan dan Bagi Hasil</h2>
+            <p>Total Pengeluaran: Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
             <p>Dana Pengembangan: Rp {{ number_format($danaPengembangan, 0, ',', '.') }}</p>
             <p>Dana Bagi Hasil: Rp {{ number_format($danaBagiHasil, 0, ',', '.') }}</p>
-            <p>Total Pengeluaran: Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
         </div>
 
         <div class="section">
             <h2>Keuntungan Investor dan Owner</h2>
-            <p>Keuntungan Investor 1: Rp {{ number_format($keuntunganBersihInvestor1, 0, ',', '.') }}</p>
-            <p>Keuntungan Investor 2: Rp {{ number_format($keuntunganBersihInvestor2, 0, ',', '.') }}</p>
-            <p>Keuntungan Owner: Rp {{ number_format($keuntunganBersihOwner, 0, ',', '.') }}</p>
-        </div>
-
-        <div class="section">
-            <h2>Pengeluaran Investor dan Owner</h2>
-            <p>Pengeluaran Investor 1: Rp {{ number_format($pengeluaranInvestor1, 0, ',', '.') }}</p>
-            <p>Pengeluaran Investor 2: Rp {{ number_format($pengeluaranInvestor2, 0, ',', '.') }}</p>
-            <p>Pengeluaran Owner: Rp {{ number_format($pengeluaranOwner, 0, ',', '.') }}</p>
+            <p>Keuntungan Investor 1: Rp {{ number_format($keuntunganInvestor1, 0, ',', '.') }}</p>
+            <p>Keuntungan Investor 2: Rp {{ number_format($keuntunganInvestor2, 0, ',', '.') }}</p>
+            <p>Keuntungan Owner dari Layanan: Rp {{ number_format($KeuntunganOwnerDariLayanan, 0, ',', '.') }}</p>
+            <p>Keuntungan Owner dari Investasi: Rp {{ number_format($keuntunganOwnerDariInvestasi, 0, ',', '.') }}</p>
         </div>
     </div>
 </body>

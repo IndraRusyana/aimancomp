@@ -79,6 +79,11 @@
                                                     Kopi & minuman
                                                 </a>
                                             </li>
+                                            <li class="nav-item" data-value='{"path":"pekerjaan","menu":"komisis"}'>
+                                                <a class="nav-link {{ Route::currentRouteName() == 'komisis.index' ? 'active' : '' }}" href="{{route('komisis.index')}}">
+                                                    Komisi
+                                                </a>
+                                            </li>
                                         </ul>
                                     </h6>
                                     <div class="table-responsive text-nowrap" id="table-content">

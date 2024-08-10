@@ -10,6 +10,7 @@ use App\Models\JobProgram;
 use App\Models\JobJoki;
 use App\Models\JobTopup;
 use App\Models\JobDrink;
+use App\Models\Komisi;
 use App\Models\Pengeluaran;
 
 class FinancialReportService
@@ -29,6 +30,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereDate('tanggal', $dateInput)->get();
             $dataJobDrink = JobDrink::whereDate('tanggal', $dateInput)->get();
+            $dataKomisi = Komisi::whereDate('tanggal', $dateInput)->get();
             $dataPengeluaran = Pengeluaran::whereDate('tanggal', $dateInput)->get();
 
             $result['titlePeriode'] = Carbon::parse($dateInput)->translatedFormat('l, d F Y');
@@ -44,6 +46,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereMonth('tanggal', $monthInput)->get();
             $dataJobDrink = JobDrink::whereMonth('tanggal', $monthInput)->get();
+            $dataKomisi = Komisi::whereMonth('tanggal', $monthInput)->get();
             $dataPengeluaran = Pengeluaran::whereMonth('tanggal', $monthInput)->get();
 
             $result['titlePeriode'] = Carbon::createFromDate($yearInput, $monthInput, 1)->translatedFormat('F Y');
@@ -60,6 +63,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataJobDrink = JobDrink::whereBetween('tanggal', [$startDate, $endDate])->get();
+            $dataKomisi = Komisi::whereBetween('tanggal', [$startDate, $endDate])->get();
             $dataPengeluaran = Pengeluaran::whereBetween('tanggal', [$startDate, $endDate])->get();
 
         } else {
@@ -70,6 +74,7 @@ class FinancialReportService
             $dataJobJoki = JobJoki::where('status', 'selesai')->get();
             $dataJobTopup = JobTopup::where('status', 'selesai')->get();
             $dataJobDrink = JobDrink::all();
+            $dataKomisi = Komisi::all();
             $dataPengeluaran = Pengeluaran::all();
 
             $result['titlePeriode'] = 'Semua waktu';
@@ -84,7 +89,7 @@ class FinancialReportService
         $result['totalKeuntunganJobJoki'] = self::calculateTotalKeuntungan($dataJobJoki, 'harga');
         $result['totalKeuntunganJobTopup'] = self::calculateTotalKeuntungan($dataJobTopup, 'harga_jual', 'modal');
         $result['totalKeuntunganJobDrink'] = self::calculateTotalKeuntungan($dataJobDrink, 'harga_jual', 'modal');
-        $result['totalPengeluaran'] = self::calculateTotalKeuntungan($dataPengeluaran, 'nominal');
+        $result['totalKomisi'] = self::calculateTotalKeuntungan($dataKomisi, 'nominal');
 
         // menghitung harga jual dan harga awal / modal
         $totalHargaJobSparepart = 0; 
@@ -116,48 +121,165 @@ class FinancialReportService
         $result['totalHargaJobDrink'] = $totalHargaJobDrink;
         $result['totalModalJobDrink'] = $totalModalJobDrink;
 
-        // Hitung total seluruh keuntungan
+        // Hitung total seluruh keuntungan ( laba kotor )
         $result['totalSeluruhKeuntungan'] = $result['totalKeuntunganJobService'] +
                                              $result['totalKeuntunganJobSparepart'] +
                                              $result['totalKeuntunganJobProgram'] +
                                              $result['totalKeuntunganJobJoki'] +
                                              $result['totalKeuntunganJobTopup'] +
-                                             $result['totalKeuntunganJobDrink'];
+                                             $result['totalKeuntunganJobDrink'] +
+                                             $result['totalKomisi'];
 
-        // Hitung dana pengembangan, bagi hasil, dan keuntungan investor/owner
-        $result['danaPengembangan'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 20);
-        $result['danaBagiHasil'] = self::hitungPersentase($result['totalSeluruhKeuntungan'], 80);
+        // hitung total pengeluaran
+        $result['totalPengeluaran'] = self::calculateTotalKeuntungan($dataPengeluaran, 'nominal');
 
-        // hitung total keuntuangan per layanana
-        $result['totalKeuntunganPerLayanan'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40) +
-                                             self::hitungPersentase($result['totalKeuntunganJobSparepart'], 100) +
-                                             self::hitungPersentase($result['totalKeuntunganJobProgram'], 20) +
-                                             self::hitungPersentase($result['totalKeuntunganJobJoki'], 40) +
-                                             self::hitungPersentase($result['totalKeuntunganJobTopup'], 100) +
-                                             self::hitungPersentase($result['totalKeuntunganJobDrink'], 100);
+        // array keuntungan per layanan
+        $penghasilanPerLayanan = [
+            'layanan1'=>$result['totalKeuntunganJobService'],
+            'layanan2'=>$result['totalKeuntunganJobSparepart'],
+            'layanan3'=>$result['totalKeuntunganJobProgram'],
+            'layanan4'=>$result['totalKeuntunganJobJoki'],
+            'layanan5'=>$result['totalKeuntunganJobTopup'],
+            'layanan6'=>$result['totalKeuntunganJobDrink'],
+            'layanan7'=>$result['totalKomisi']
+        ];
 
-        // pengeluaran investor
-        $result['kontribusiInvestor1'] = self::hitungKontribusiInvestor($result['totalKeuntunganPerLayanan'],$result['totalSeluruhKeuntungan'],50);
-        $result['kontribusiInvestor2'] = self::hitungKontribusiInvestor($result['totalKeuntunganPerLayanan'],$result['totalSeluruhKeuntungan'],2);
+        // hitung proporsi pengeluaran setiap layanan
+        $proporsiPengeluaran = self::hitungPengeluaran($penghasilanPerLayanan, $result['totalPengeluaran']);
 
-        $result['pengeluaranInvestor1'] = $result['totalPengeluaran'] * $result['kontribusiInvestor1'];
-        $result['pengeluaranInvestor2'] = $result['totalPengeluaran'] * $result['kontribusiInvestor2'];
+        // Hitung sisa penghasilan setelah dikurangi pengeluaran
+        $sisaPenghasilan = [];
+        foreach ($penghasilanPerLayanan as $layanan => $penghasilanLayanan) {
+            $sisaPenghasilan[$layanan] = $penghasilanLayanan - $proporsiPengeluaran[$layanan];
+        }
 
-        // pengeluaran owner
-        $result['pengeluaranOwner'] = $result['totalPengeluaran'] - $result['pengeluaranInvestor1'] - $result['pengeluaranInvestor2'];
+        $totalKeuntunganJobService = $sisaPenghasilan['layanan1'];
+        $totalKeuntunganJobSparepart = $sisaPenghasilan['layanan2'];
+        $totalKeuntunganJobProgram = $sisaPenghasilan['layanan3'];
+        $totalKeuntunganJobJoki = $sisaPenghasilan['layanan4'];
+        $totalKeuntunganJobTopup = $sisaPenghasilan['layanan5'];
+        $totalKeuntunganJobDrink = $sisaPenghasilan['layanan6'];
+        $totalKomisi = $sisaPenghasilan['layanan7'];
 
-        // menghitung keuntungan bersih investor dan owner
-        $result['keuntunganBersihInvestor1'] = $result['danaBagiHasil'] * $result['kontribusiInvestor1'] - $result['pengeluaranInvestor1'];
-        $result['keuntunganBersihInvestor2'] = $result['danaBagiHasil'] * $result['kontribusiInvestor2'] - $result['pengeluaranInvestor2'];
-        $result['keuntunganBersihOwner'] = $result['danaBagiHasil'] - ($result['keuntunganBersihInvestor1'] + $result['keuntunganBersihInvestor2']);
+        $result['jobServiceDikurangiPengeluaran'] = $totalKeuntunganJobService;
+        $result['jobSparepartDikurangiPengeluaran'] = $totalKeuntunganJobSparepart;
+        $result['jobProgramDikurangiPengeluaran'] = $totalKeuntunganJobProgram;
+        $result['jobJokiDikurangiPengeluaran'] = $totalKeuntunganJobJoki;
+        $result['jobTopupDikurangiPengeluaran'] = $totalKeuntunganJobTopup;
+        $result['jobDrinkDikurangiPengeluaran'] = $totalKeuntunganJobDrink;
+        $result['totalKomisiDikurangiPengeluaran'] = $totalKomisi;
+        
+        // perhitungan dana pengembangan
+        $result['danaPengembangan'] = 0;
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobService,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobSparepart,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobProgram,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobJoki,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobTopup,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKeuntunganJobDrink,1);
+        $result['danaPengembangan'] += self::hitungPersentase($totalKomisi,1);
 
-        // Hitung persentase untuk masing-masing jenis
-        $result['prsntService'] = self::hitungPersentase($result['totalKeuntunganJobService'], 40);
-        $result['prsntSparepart'] = self::hitungPersentase($result['totalKeuntunganJobSparepart'], 100);
-        $result['prsntProgram'] = self::hitungPersentase($result['totalKeuntunganJobProgram'], 20);
-        $result['prsntJoki'] = self::hitungPersentase($result['totalKeuntunganJobJoki'], 40);
-        $result['prsntTopup'] = self::hitungPersentase($result['totalKeuntunganJobTopup'], 100);
-        $result['prsntDrink'] = self::hitungPersentase($result['totalKeuntunganJobDrink'], 100);
+        // perhitungan keuntungan setiap layanan setelah diambil dana pengembangan
+        $totalKeuntunganJobService -= self::hitungPersentase($totalKeuntunganJobService,1);
+        $totalKeuntunganJobSparepart -= self::hitungPersentase($totalKeuntunganJobSparepart,1);
+        $totalKeuntunganJobProgram -= self::hitungPersentase($totalKeuntunganJobProgram,1);
+        $totalKeuntunganJobJoki -= self::hitungPersentase($totalKeuntunganJobJoki,1);
+        $totalKeuntunganJobTopup -= self::hitungPersentase($totalKeuntunganJobTopup,1);
+        $totalKeuntunganJobDrink -= self::hitungPersentase($totalKeuntunganJobDrink,1);
+        $totalKomisi -= self::hitungPersentase($totalKomisi,1);
+
+        $result['jobServiceDikurangiPengembangan'] = $totalKeuntunganJobService;
+        $result['jobSparepartDikurangiPengembangan'] = $totalKeuntunganJobSparepart;
+        $result['jobProgramDikurangiPengembangan'] = $totalKeuntunganJobProgram;
+        $result['jobJokiDikurangiPengembangan'] = $totalKeuntunganJobJoki;
+        $result['jobTopupDikurangiPengembangan'] = $totalKeuntunganJobTopup;
+        $result['jobDrinkDikurangiPengembangan'] = $totalKeuntunganJobDrink;
+        $result['komisiDikurangiPengembangan'] = $totalKomisi;
+
+        $result['danaBagiHasil'] = $totalKeuntunganJobService +
+                                    $totalKeuntunganJobSparepart +
+                                    $totalKeuntunganJobProgram +
+                                    $totalKeuntunganJobJoki +
+                                    $totalKeuntunganJobTopup +
+                                    $totalKeuntunganJobDrink;
+
+        // perhitungan persentase untuk investor pada setiap layanan
+        $result['totalKeuntunganInvestor'] = self::hitungPersentase($totalKeuntunganJobService, 40) +
+                                             self::hitungPersentase($totalKeuntunganJobSparepart, 100) +
+                                             self::hitungPersentase($totalKeuntunganJobProgram, 20) +
+                                             self::hitungPersentase($totalKeuntunganJobJoki, 40) +
+                                             self::hitungPersentase($totalKeuntunganJobTopup, 100) +
+                                             self::hitungPersentase($totalKeuntunganJobDrink, 100);
+
+        // perhitungan persentase untuk owner pada setiap layanan
+        $result['KeuntunganOwnerDariLayanan'] = self::hitungPersentase($totalKeuntunganJobService, 60) +
+                                             self::hitungPersentase($totalKeuntunganJobProgram, 80) +
+                                             self::hitungPersentase($totalKeuntunganJobJoki, 60) +
+                                             $totalKomisi;
+
+        // perhitunngan pembagian investor
+        $result['keuntunganInvestor1'] = $result['totalKeuntunganInvestor'] * 0.5;
+        $result['keuntunganInvestor2'] = $result['totalKeuntunganInvestor'] * 0.02;
+        $result['keuntunganOwnerDariInvestasi'] = $result['totalKeuntunganInvestor'] * 0.48;
+
+        $result['dataLaporan'] = [
+            [
+                'Service', 
+                $result['totalKeuntunganJobService'], 
+                0, 
+                $result['totalKeuntunganJobService'], 
+                $result['jobServiceDikurangiPengeluaran'], 
+                $result['jobServiceDikurangiPengembangan']
+            ],
+            [
+                'Sparepart', 
+                $result['totalHargaJobSparepart'], 
+                $result['totalModalJobSparepart'], 
+                $result['totalKeuntunganJobSparepart'], 
+                $result['jobSparepartDikurangiPengeluaran'], 
+                $result['jobSparepartDikurangiPengembangan']
+            ],
+            [
+                'Web/aplikasi', 
+                $result['totalKeuntunganJobProgram'], 
+                0, 
+                $result['totalKeuntunganJobProgram'], 
+                $result['jobProgramDikurangiPengeluaran'], 
+                $result['jobProgramDikurangiPengembangan']
+            ],
+            [
+                'Joki', 
+                $result['totalKeuntunganJobJoki'], 
+                0, 
+                $result['totalKeuntunganJobJoki'], 
+                $result['jobJokiDikurangiPengeluaran'], 
+                $result['jobJokiDikurangiPengembangan']
+            ],
+            [
+                'Topup', 
+                $result['totalHargaJobTopup'], 
+                $result['totalModalJobTopup'], 
+                $result['totalKeuntunganJobTopup'], 
+                $result['jobTopupDikurangiPengeluaran'], 
+                $result['jobTopupDikurangiPengembangan']
+            ],
+            [
+                'Minuman', 
+                $result['totalHargaJobDrink'], 
+                $result['totalModalJobDrink'], 
+                $result['totalKeuntunganJobDrink'], 
+                $result['jobDrinkDikurangiPengeluaran'], 
+                $result['jobDrinkDikurangiPengembangan']
+            ],
+            [
+                'Komisi', 
+                $result['totalKomisi'], 
+                0, 
+                $result['totalKomisi'], 
+                $result['totalKomisiDikurangiPengeluaran'], 
+                $result['komisiDikurangiPengembangan']
+            ]
+        ];
 
         return $result;
     }
@@ -185,11 +307,19 @@ class FinancialReportService
         return $nilai * ($persen / 100);
     }
 
-    // Method untuk menghitung persentase kontribusi investor
-    private static function hitungKontribusiInvestor( $totalKeuntunganPerLayanan, $totalSeluruhKeuntungan, $persen)
-    {
-        $persen = ($persen / 100);
-        $kontribusiInvestor = $totalKeuntunganPerLayanan / $totalSeluruhKeuntungan * $persen;
-        return $kontribusiInvestor;
+    // Fungsi untuk menghitung proporsi pengeluaran per layanan
+    private static function hitungPengeluaran($penghasilan, $totalPengeluaran) {
+        $totalPenghasilan = array_sum($penghasilan);
+        $proporsiPengeluaran = [];
+        
+        foreach ($penghasilan as $layanan => $penghasilanLayanan) {
+            if ($totalPenghasilan > 0) {
+                $proporsiPengeluaran[$layanan] = ($penghasilanLayanan / $totalPenghasilan) * $totalPengeluaran;
+            } else {
+                $proporsiPengeluaran[$layanan] = 0;
+            }
+        }
+        
+        return $proporsiPengeluaran;
     }
 }
