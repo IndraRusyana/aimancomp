@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan PDF</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('assets\img\icons\brands\aiman.png')}}" />
     <style>
         /* Tambahkan styling sesuai kebutuhan */
         body {
@@ -79,11 +80,35 @@
             <p>Dana Bagi Hasil: Rp {{ number_format($danaBagiHasil, 0, ',', '.') }}</p>
         </div>
 
+        @if ($role == "investor")
         <div class="section">
-            <h2>Keuntungan Investor dan Owner</h2>
-            <p>Keuntungan Investor 1: Rp {{ number_format($keuntunganInvestor1, 0, ',', '.') }}</p>
-            <p>Keuntungan Investor 2: Rp {{ number_format($keuntunganInvestor2, 0, ',', '.') }}</p>
+            <h2>Keuntungan Investor</h2>
+            @if ($email == "investor1@mail.com")
+            <p>Keuntungan {{$name}}: Rp {{ number_format($keuntunganInvestor1, 0, ',', '.') }}</p>
+            @endif
+            @if ($email == "investor2@mail.com")
+            <p>Keuntungan {{$name}}: Rp {{ number_format($keuntunganInvestor2, 0, ',', '.') }}</p>
+            @endif
+        </div>
+        @else
+        <div class="section">
+            <h2>Keuntungan Investor</h2>
+        @foreach ($investor as $data)
+            @if ($data->email == "investor1@mail.com")
+            <p>Keuntungan {{$name}}: Rp {{ number_format($keuntunganInvestor1, 0, ',', '.') }}</p>
+            @endif
+            @if ($data->email == "investor2@mail.com")
+            <p>Keuntungan {{$name}}: Rp {{ number_format($keuntunganInvestor2, 0, ',', '.') }}</p>
+            @endif
+        @endforeach
+        </div>
+        @endif
+        
+        <div class="section">
+            <h2>Keuntungan Owner</h2>
+            @if(auth()->user()->isOwner())
             <p>Keuntungan Owner dari Layanan: Rp {{ number_format($KeuntunganOwnerDariLayanan, 0, ',', '.') }}</p>
+            @endif
             <p>Keuntungan Owner dari Investasi: Rp {{ number_format($keuntunganOwnerDariInvestasi, 0, ',', '.') }}</p>
         </div>
     </div>

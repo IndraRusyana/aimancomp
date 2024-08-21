@@ -58,7 +58,7 @@
             </a>
         </li>
         @endif
-        @if(auth()->user()->isOwner() || auth()->user()->isAdmin() || auth()->user()->isInvestor())
+        @if(auth()->user()->isOwner() || auth()->user()->isInvestor())
         <li class="menu-item @yield('laporan')">
             <a href="/admin/laporan" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-report"></i>

@@ -97,7 +97,7 @@ class StoreController extends Controller
             }
 
             // Store the new image
-            $filePath = $request->file('gambar')->store('images', 'public');
+            $filePath = $request->file('gambar')->store('uploads', 'public');
             $store->gambar = $filePath;
         } else {
             // Use existing image

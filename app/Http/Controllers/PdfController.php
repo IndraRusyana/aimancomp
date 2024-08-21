@@ -13,6 +13,7 @@ use App\Models\Pengeluaran;
 use App\Models\Komisi;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
+use App\Models\Investor;
 use Dompdf\Options;
 
 class PdfController extends Controller
@@ -41,8 +42,20 @@ class PdfController extends Controller
         
 
         $financialData = FinancialReportService::generateFinancialData($jenisLaporan, $dateInput, $monthYear, $startDate, $endDate);
+        
+        $data['name'] = auth()->user()->name;
+        $data['role'] = auth()->user()->role;
+        $data['email'] = auth()->user()->email;
+
+        if ($data['role'] == "investor") {
+            $investor = Investor::where('email',$data['email'])->first();
+            $data['prsnt_investasi'] = $investor->prsnt_investasi;
+        } else {
+            $data['investor'] = Investor::all();
+        }
+        
         // Render view ke dalam PDF
-        $view = view('pdf.laporan-keuangan', $financialData);
+        $view = view('pdf.laporan-keuangan', $financialData, $data);
         $dompdf = new Dompdf();
         $dompdf->loadHtml($view->render());
 
@@ -52,8 +65,9 @@ class PdfController extends Controller
         // Render PDF (output)
         $dompdf->render();
         ob_end_clean();
+
         // Mengunduh file PDF
-        return $dompdf->stream("laporan_keuangan.pdf", array("Attachment" => false));
+        return $dompdf->stream("laporan_keuangan.pdf", array("Attachment" => false), $data);
     }
 
     public function generateJobReport(request $request){
@@ -119,6 +133,7 @@ class PdfController extends Controller
         $dompdf->render();
         ob_end_clean();
         // Mengunduh file PDF
+
         return $dompdf->stream("laporan_pekerjaan.pdf", array("Attachment" => false));
 
     }

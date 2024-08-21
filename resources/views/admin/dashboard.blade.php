@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -35,10 +34,15 @@
                                     <div class="d-flex align-items-end row">
                                         <div class="col-sm-7">
                                             <div class="card-body">
-                                                <h5 class="card-title text-primary">Selamat {{ Auth::user()->name }}🎉</h5>
+                                                <h5 class="card-title text-primary">Selamat Datang {{ Auth::user()->name }}🎉</h5>
                                                 <p class="mb-4">
-                                                    Kamu telah mendapatkan keuntungan <span class="fw-bold">72%</span> lebih besar dari hari kemarin. 
-                                                    Silahkan cek laporan keuangan mu.
+                                                    Profil Akun Mu :
+                                                    <li>
+                                                        Email : {{ Auth::user()->email }}
+                                                    </li>
+                                                    <li>
+                                                        Role : {{ Auth::user()->role }}
+                                                    </li>
                                                 </p>
 
                                                 <a href="/admin/laporan" class="btn btn-sm btn-outline-primary">View
@@ -63,17 +67,15 @@
                                             <div
                                                 class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                                                 <div class="card-title">
-                                                    <h5 class="text-nowrap mb-2">Profile Report</h5>
+                                                    <h5 class="text-nowrap mb-2">Profile Report Aimancomp</h5>
                                                     <span class="badge bg-label-warning rounded-pill">Year
-                                                        2021</span>
+                                                        2024</span>
                                                 </div>
                                                 <div class="mt-sm-auto">
-                                                    <small class="text-success text-nowrap fw-semibold"><i
-                                                            class="bx bx-chevron-up"></i> 68.2%</small>
-                                                    <h3 class="mb-0">$84,686k</h3>
+                                                    <h3 class="mb-0">@formatRupiah($totalKeuntungan)</h3>
                                                 </div>
                                             </div>
-                                            <div id="profileReportChart"></div>
+                                            {{-- <div id="profileReportChart"></div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -85,92 +87,121 @@
                                 <div class="card h-100">
                                     <div class="card-header d-flex align-items-center justify-content-between pb-0">
                                         <div class="card-title mb-0">
-                                            <h5 class="m-0 me-2">Order Statistics</h5>
-                                            <small class="text-muted">42.82k Total Sales</small>
-                                        </div>
-                                        <div class="dropdown">
-                                            <button class="btn p-0" type="button" id="orederStatistics"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="orederStatistics">
-                                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                                            </div>
+                                            <h5 class="m-0 me-2">Order Statistik</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div class="d-flex flex-column align-items-center gap-1">
-                                                <h2 class="mb-2">8,258</h2>
+                                                <h2 class="mb-2">{{ $jmlTransaksi }}</h2>
                                                 <span>Total Orders</span>
                                             </div>
-                                            <div id="orderStatisticsChart"></div>
+                                            {{-- <div id="orderStatisticsChart"></div> --}}
+                                            <div id="jmlTransaksi"></div>
                                         </div>
                                         <ul class="p-0 m-0">
-                                            <li class="d-flex mb-4 pb-1">
+                                            <li class="d-flex mb-2 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
-                                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                                    <span class="avatar-initial rounded" style="background-color: #008FFB"><i
                                                             class="bx bx-mobile-alt"></i></span>
                                                 </div>
                                                 <div
                                                     class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Electronic</h6>
-                                                        <small class="text-muted">Mobile, Earbuds, TV</small>
+                                                        <h6 class="mb-0">Service</h6>
                                                     </div>
                                                     <div class="user-progress">
-                                                        <small class="fw-semibold">82.5k</small>
+                                                        <small class="fw-semibold">{{ $jmlJobService }}</small>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="d-flex mb-4 pb-1">
+                                            <li class="d-flex mb-2 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
-                                                    <span class="avatar-initial rounded bg-label-success"><i
-                                                            class="bx bx-closet"></i></span>
+                                                    <span class="avatar-initial rounded" style="background-color: #00E396"><i
+                                                            class="bx bx-chip"></i></span>
                                                 </div>
                                                 <div
                                                     class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Fashion</h6>
-                                                        <small class="text-muted">T-shirt, Jeans, Shoes</small>
+                                                        <h6 class="mb-0">Sparepart</h6>
                                                     </div>
                                                     <div class="user-progress">
-                                                        <small class="fw-semibold">23.8k</small>
+                                                        <small class="fw-semibold">{{ $jmlJobSparepart }}</small>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="d-flex mb-4 pb-1">
+                                            <li class="d-flex mb-2 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
-                                                    <span class="avatar-initial rounded bg-label-info"><i
+                                                    <span class="avatar-initial rounded" style="background-color: #FEB019"><i
                                                             class="bx bx-home-alt"></i></span>
                                                 </div>
                                                 <div
                                                     class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Decor</h6>
-                                                        <small class="text-muted">Fine Art, Dining</small>
+                                                        <h6 class="mb-0">Web / Aplikasi</h6>
                                                     </div>
                                                     <div class="user-progress">
-                                                        <small class="fw-semibold">849k</small>
+                                                        <small class="fw-semibold">{{ $jmlJobProgram }}</small>
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="d-flex">
+                                            <li class="d-flex mb-2 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
-                                                    <span class="avatar-initial rounded bg-label-secondary"><i
-                                                            class="bx bx-football"></i></span>
+                                                    <span class="avatar-initial rounded" style="background-color: #FF4560"><i
+                                                            class="bx bx-notepad"></i></span>
                                                 </div>
                                                 <div
                                                     class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Sports</h6>
-                                                        <small class="text-muted">Football, Cricket Kit</small>
+                                                        <h6 class="mb-0">Joki</h6>
                                                     </div>
                                                     <div class="user-progress">
-                                                        <small class="fw-semibold">99</small>
+                                                        <small class="fw-semibold">{{ $jmlJobJoki }}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-2 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <span class="avatar-initial rounded" style="background-color: #775DD0"><i
+                                                            class="bx bx-wallet"></i></span>
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Topup</h6>
+                                                    </div>
+                                                    <div class="user-progress">
+                                                        <small class="fw-semibold">{{ $jmlJobTopup }}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-2 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <span class="avatar-initial rounded" style="background-color: #5C4742"><i
+                                                            class="bx bx-coffee"></i></span>
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Minuman</h6>
+                                                    </div>
+                                                    <div class="user-progress">
+                                                        <small class="fw-semibold">{{ $jmlJobDrink }}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex mb-2 pb-1">
+                                                <div class="avatar flex-shrink-0 me-3">
+                                                    <span class="avatar-initial rounded" style="background-color: #A5978B"><i
+                                                            class="bx bx-coin-stack"></i></span>
+                                                </div>
+                                                <div
+                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="me-2">
+                                                        <h6 class="mb-0">Komisi</h6>
+                                                    </div>
+                                                    <div class="user-progress">
+                                                        <small class="fw-semibold">{{ $jmlKomisi }}</small>
                                                     </div>
                                                 </div>
                                             </li>
@@ -181,188 +212,22 @@
                             <!--/ Order Statistics -->
 
                             <!-- Expense Overview -->
-                            <div class="col-md-6 col-lg-4 order-1 mb-4">
+                            <div class="col-md-12 col-lg-8 order-1 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header">
-                                        <ul class="nav nav-pills" role="tablist">
-                                            <li class="nav-item">
-                                                <button type="button" class="nav-link active" role="tab"
-                                                    data-bs-toggle="tab" data-bs-target="#navs-tabs-line-card-income"
-                                                    aria-controls="navs-tabs-line-card-income" aria-selected="true">
-                                                    Income
-                                                </button>
-                                            </li>
-                                            <li class="nav-item">
-                                                <button type="button" class="nav-link" role="tab">Expenses</button>
-                                            </li>
-                                            <li class="nav-item">
-                                                <button type="button" class="nav-link" role="tab">Profit</button>
-                                            </li>
-                                        </ul>
+                                        <div class="card-title mb-0">
+                                            <h5 class="m-0 me-2">Pemasukan dan Pengeluaran</h5>
+                                        </div>
                                     </div>
                                     <div class="card-body px-0">
                                         <div class="tab-content p-0">
-                                            <div class="tab-pane fade show active" id="navs-tabs-line-card-income"
-                                                role="tabpanel">
-                                                <div class="d-flex p-4 pt-3">
-                                                    <div class="avatar flex-shrink-0 me-3">
-                                                        <img src="../assets/img/icons/unicons/wallet.png"
-                                                            alt="User" />
-                                                    </div>
-                                                    <div>
-                                                        <small class="text-muted d-block">Total Balance</small>
-                                                        <div class="d-flex align-items-center">
-                                                            <h6 class="mb-0 me-1">$459.10</h6>
-                                                            <small class="text-success fw-semibold">
-                                                                <i class="bx bx-chevron-up"></i>
-                                                                42.9%
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="incomeChart"></div>
-                                                <div class="d-flex justify-content-center pt-4 gap-2">
-                                                    <div class="flex-shrink-0">
-                                                        <div id="expensesOfWeek"></div>
-                                                    </div>
-                                                    <div>
-                                                        <p class="mb-n1 mt-1">Expenses This Week</p>
-                                                        <small class="text-muted">$39 less than last week</small>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div id="chartTransaksi"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--/ Expense Overview -->
 
-                            <!-- Transactions -->
-                            <div class="col-md-6 col-lg-4 order-2 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-header d-flex align-items-center justify-content-between">
-                                        <h5 class="card-title m-0 me-2">Transactions</h5>
-                                        <div class="dropdown">
-                                            <button class="btn p-0" type="button" id="transactionID"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                                                <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="p-0 m-0">
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/paypal.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Paypal</small>
-                                                        <h6 class="mb-0">Send money</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">+82.6</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Wallet</small>
-                                                        <h6 class="mb-0">Mac'D</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">+270.69</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/chart.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Transfer</small>
-                                                        <h6 class="mb-0">Refund</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">+637.91</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Credit Card</small>
-                                                        <h6 class="mb-0">Ordered Food</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">-838.71</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-4 pb-1">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Wallet</small>
-                                                        <h6 class="mb-0">Starbucks</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">+203.33</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex">
-                                                <div class="avatar flex-shrink-0 me-3">
-                                                    <img src="../assets/img/icons/unicons/cc-warning.png" alt="User"
-                                                        class="rounded" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <small class="text-muted d-block mb-1">Mastercard</small>
-                                                        <h6 class="mb-0">Ordered Food</h6>
-                                                    </div>
-                                                    <div class="user-progress d-flex align-items-center gap-1">
-                                                        <h6 class="mb-0">-92.45</h6>
-                                                        <span class="text-muted">USD</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/ Transactions -->
                         </div>
                     </div>
                     <!-- / Content -->
@@ -380,4 +245,174 @@
     </div>
     <!-- / Layout wrapper -->
 
+    <!-- Vendors JS -->
+    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+
+    <script>
+        // Fungsi untuk format Rupiah
+        function formatRupiah(angka) {
+            let rupiah = '';
+            let angkarev = angka.toString().split('').reverse().join('');
+            for (let i = 0; i < angkarev.length; i++) {
+                if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+            }
+            return 'Rp ' + rupiah.split('', rupiah.length - 1).reverse().join('');
+        }
+
+        // Fungsi untuk menghitung persentase
+        function calculatePercentage(value, total) {
+            return parseFloat(((value / total) * 100).toFixed(1));
+        }
+
+        let jmlJobService = {{ $jmlJobService }}
+        let jmlJobSparepart = {{ $jmlJobSparepart }}
+        let jmlJobProgram = {{ $jmlJobProgram }}
+        let jmlJobJoki = {{ $jmlJobJoki }}
+        let jmlJobTopup = {{ $jmlJobTopup }}
+        let jmlJobDrink = {{ $jmlJobDrink }}
+        let jmlKomisi = {{ $jmlKomisi }}
+        let jmlTransaksi = {{ $jmlTransaksi }}
+        let keuntungan = {!! json_encode($keuntunganBulanan) !!};
+        let pengeluaran = {!! json_encode($pengeluaranBulanan) !!};
+
+        // Iterasi dan format setiap nilai dalam objek
+        for (let bulan in keuntungan) {
+            if (keuntungan.hasOwnProperty(bulan)) {
+                keuntungan[bulan] = formatRupiah(keuntungan[bulan]);
+            }
+        }
+
+        for (let bulan in pengeluaran) {
+            if (pengeluaran.hasOwnProperty(bulan)) {
+                pengeluaran[bulan] = formatRupiah(pengeluaran[bulan]);
+            }
+        }
+
+        console.log(keuntungan); // Cek hasil format Rupiah
+        console.log(pengeluaran); // Cek hasil format Rupiah
+
+
+        // Hitung persentase untuk setiap kategori
+        let percService = calculatePercentage(jmlJobService, jmlTransaksi);
+        let percSparepart = calculatePercentage(jmlJobSparepart, jmlTransaksi);
+        let percProgram = calculatePercentage(jmlJobProgram, jmlTransaksi);
+        let percJoki = calculatePercentage(jmlJobJoki, jmlTransaksi);
+        let percTopup = calculatePercentage(jmlJobTopup, jmlTransaksi);
+        let percDrink = calculatePercentage(jmlJobDrink, jmlTransaksi);
+        let percKomisi = calculatePercentage(jmlKomisi, jmlTransaksi);
+
+        var options = {
+            chart: {
+                height: 165,
+                width: 130,
+                type: 'donut'
+            },
+            series: [percService, percSparepart, percProgram, percJoki, percTopup, percDrink, percKomisi],
+            labels: ['Service', 'Sparepart', 'Program', 'Joki', 'Topup', 'Minuman', 'Komisi'],
+            colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#5C4742', '#A5978B'],
+            dataLabels: {
+                enabled: false,
+                formatter: function(val, opt) {
+                    return parseInt(val) + '%';
+                }
+            },
+            legend: {
+                show: false
+            },
+            grid: {
+                padding: {
+                    top: 0,
+                    bottom: 0,
+                    right: 15
+                }
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '75%',
+                        labels: {
+                            show: true,
+                            value: {
+                                fontSize: '1.5rem',
+                                fontFamily: 'Public Sans',
+                                offsetY: -15,
+                                formatter: function(val) {
+                                    return parseInt(val) + '%';
+                                }
+                            },
+                            name: {
+                                offsetY: 20,
+                                fontFamily: 'Public Sans'
+                            },
+                            total: {
+                                show: true,
+                                fontSize: '0.8125rem',
+                                label: 'Transaksi',
+                                formatter: function(w) {
+                                    return jmlTransaksi;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(document.querySelector("#jmlTransaksi"), options);
+        chart.render();
+
+        var options = {
+            series: [{
+                name: 'Pemasukan',
+                data: [
+                    {!! $keuntunganBulanan[1] !!}, {!! $keuntunganBulanan[2] !!}, {!! $keuntunganBulanan[3] !!},
+                    {!! $keuntunganBulanan[4] !!}, {!! $keuntunganBulanan[5] !!}, {!! $keuntunganBulanan[6] !!},
+                    {!! $keuntunganBulanan[7] !!}, {!! $keuntunganBulanan[8] !!}, {!! $keuntunganBulanan[9] !!},
+                    {!! $keuntunganBulanan[10] !!}, {!! $keuntunganBulanan[11] !!}, {!! $keuntunganBulanan[12] !!}
+                ] // Data pemasukan bulanan numerik
+            }, {
+                name: 'Pengeluaran',
+                data: [
+                    {!! $pengeluaranBulanan[1] !!}, {!! $pengeluaranBulanan[2] !!}, {!! $pengeluaranBulanan[3] !!},
+                    {!! $pengeluaranBulanan[4] !!}, {!! $pengeluaranBulanan[5] !!}, {!! $pengeluaranBulanan[6] !!},
+                    {!! $pengeluaranBulanan[7] !!}, {!! $pengeluaranBulanan[8] !!}, {!! $pengeluaranBulanan[9] !!},
+                    {!! $pengeluaranBulanan[10] !!}, {!! $pengeluaranBulanan[11] !!}, {!! $pengeluaranBulanan[12] !!}
+                ] // Data pengeluaran bulanan numerik
+            }],
+            chart: {
+                height: 450,
+                type: 'area',
+                zoom: {
+                    autoScaleYaxis: true
+                }
+            },
+            colors: ['#696cff', '#ff3e1d'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            xaxis: {
+                type: 'category',
+                categories: [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                ] // Nama bulan dalam satu tahun
+            },
+            tooltip: {
+                x: {
+                    format: 'MMM' // Format tooltip menjadi singkatan bulan
+                },
+                y: {
+                    formatter: function(value) {
+                        return formatRupiah(value); // Format Rupiah untuk tooltip
+                    }
+                }
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chartTransaksi"), options);
+        chart.render();
+    </script>
 @endsection

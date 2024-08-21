@@ -65,7 +65,7 @@
                                                         <div class="card-footer pt-0 border-top-0 bg-transparent">
                                                             <div class="row">
                                                                 <div class="col-10 mx-auto">
-                                                                    <a class="btn btn-outline-dark mt-auto edit-sell-button" href="/admin/store/{{ $item->id }}">Edit</a>
+                                                                    {{-- <a class="btn btn-outline-dark mt-auto edit-sell-button" href="/admin/store/{{ $item->id }}">Edit</a> --}}
                                                                     <a class="btn btn-outline-danger mt-auto delete-sell-button" href="javascript:void(0);" data-id="{{ $item->id }}">Delete</a>
                                                                 </div>
                                                             </div>

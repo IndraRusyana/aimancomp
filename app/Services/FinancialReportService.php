@@ -80,7 +80,16 @@ class FinancialReportService
             $result['titlePeriode'] = 'Semua waktu';
         }
 
+        $result['dataJobService'] = $dataJobService;
+        $result['dataJobSparepart'] = $dataJobSparepart;
+        $result['dataJobProgram'] = $dataJobProgram;
+        $result['dataJobJoki'] = $dataJobJoki;
+        $result['dataJobTopup'] = $dataJobTopup;
+        $result['dataJobDrink'] = $dataJobDrink;
+        $result['dataKomisi'] = $dataKomisi;
         $result['dataPengeluaran'] = $dataPengeluaran;
+
+
 
         // Hitung total keuntungan untuk masing-masing jenis
         $result['totalKeuntunganJobService'] = self::calculateTotalKeuntungan($dataJobService, 'harga');

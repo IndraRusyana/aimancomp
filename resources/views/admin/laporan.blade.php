@@ -730,6 +730,7 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="p-0 m-0">
+                                            @if ($role == "investor")
                                             <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
@@ -737,14 +738,21 @@
                                                 </div>
                                                 <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Investor 1</h6>
-                                                        <small class="text-muted">50%</small>
+                                                        <h6 class="mb-0">{{$name}}</h6>
+                                                        <small class="text-muted">{{$prsnt_investasi}} %</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
+                                                        @if ($email == "investor1@mail.com")
                                                         <h6 class="mb-0">@formatRupiah($keuntunganInvestor1)</h6>
+                                                        @endif
+                                                        @if ($email == "investor2@mail.com")
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor2)</h6>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </li>
+                                            @else
+                                            @foreach ($investor as $data)
                                             <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-success.png" alt="User"
@@ -752,14 +760,21 @@
                                                 </div>
                                                 <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                     <div class="me-2">
-                                                        <h6 class="mb-0">Investor 2</h6>
-                                                        <small class="text-muted">2%</small>
+                                                        <h6 class="mb-0">{{$data->name}}</h6>
+                                                        <small class="text-muted">{{$data->prsnt_investasi}} %</small>
                                                     </div>
                                                     <div class="user-progress d-flex align-items-center gap-1">
+                                                        @if ($data->email == "investor1@mail.com")
+                                                        <h6 class="mb-0">@formatRupiah($keuntunganInvestor1)</h6>
+                                                        @endif
+                                                        @if ($data->email == "investor2@mail.com")
                                                         <h6 class="mb-0">@formatRupiah($keuntunganInvestor2)</h6>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </li>
+                                            @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -773,6 +788,7 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="p-0 m-0">
+                                            @if(auth()->user()->isOwner())
                                             <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-primary.png" alt="User"
@@ -787,6 +803,7 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            @endif
                                             <li class="d-flex mb-4 pb-1">
                                                 <div class="avatar flex-shrink-0 me-3">
                                                     <img src="../assets/img/icons/unicons/cc-success.png" alt="User"

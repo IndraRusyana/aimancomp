@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobService;
-use App\Models\JobSparepart;
-use App\Models\JobProgram;
-use App\Models\JobJoki;
-use App\Models\JobTopup;
-use App\Models\JobDrink;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Services\FinancialReportService;
+use App\Models\Investor;
 
 class LaporanController extends Controller
 {
@@ -22,11 +16,23 @@ class LaporanController extends Controller
         $monthYear = $request->month_input;
         $startDate = $request->start_date;
         $endDate = $request->end_date;
+        // dd($jenisLaporan);
 
         $financialData = FinancialReportService::generateFinancialData($jenisLaporan, $dateInput, $monthYear, $startDate, $endDate);
         // dump($financialData);
-        // Mengirim data harga ke view
-        return view('admin.laporan', $financialData);
+
+        $data['name'] = auth()->user()->name;
+        $data['role'] = auth()->user()->role;
+        $data['email'] = auth()->user()->email;
+
+        if ($data['role'] == "investor") {
+            $investor = Investor::where('email',$data['email'])->first();
+            $data['prsnt_investasi'] = $investor->prsnt_investasi;
+        } else {
+            $data['investor'] = Investor::all();
+        }
+ 
+        return view('admin.laporan', $financialData, $data);
     }
 
 }

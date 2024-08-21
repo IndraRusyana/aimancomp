@@ -8,9 +8,9 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Route::fallback(function () {
-//     return redirect('/store');
-// });
+Route::fallback(function () {
+    return view('not-found');
+});
 
 Route::get('/', function () {
     return redirect('/store');
@@ -58,8 +58,11 @@ Route::group(['middleware' => ['role:admin,owner']], function () {
     Route::resource('/admin/pekerjaan/komisis', App\Http\Controllers\KomisiController::class);
 });
 
-Route::group(['middleware' => ['role:admin,owner,investor']], function () {
+Route::group(['middleware' => ['role:owner,investor']], function () {
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('laporanIndex');
+});
+
+Route::group(['middleware' => ['role:admin,owner']], function () {
     Route::resource('/admin/pengeluaran', App\Http\Controllers\PengeluaranController::class);
     Route::resource('/admin/store', App\Http\Controllers\StoreController::class);
 });
